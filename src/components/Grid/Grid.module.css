@@ -1,0 +1,52 @@
+.cell {
+    border: none;
+}
+
+/* This class applies when gridLines is true */
+.grid-lines {
+    border: 0.5px solid #ddd;
+}
+
+.grid {
+    display: grid;
+    width: 600px;
+    height: 600px;
+    border: 2px solid black;
+} 
+
+.content {
+    display: flex;
+    justify-content: space-evenly;
+    width: 80%;
+}
+
+.bar {
+    padding: 10px;
+    margin: 0px 10px;
+    height: 100%;
+    border: 2px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--color-text);
+}
+
+.bar div{
+    margin: 10px 0px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: 2px solid #333;
+    border-radius: 5px;
+    background-color: #EDE3D2;
+    color: #333;
+    cursor: pointer;
+}
+
+.active {
+    background-color: #C3C9A8;
+    color: white;
+    border-color: #333;
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
