@@ -18,11 +18,12 @@
     display: flex;
     justify-content: space-evenly;
     width: 80%;
+    background: radial-gradient(circle, #FF007F 95%, #0D0D0D);
+    box-sizing: border-box; /* Includes padding and border in the total width/height */
+    padding: 20px;
 }
 
 .bar {
-    padding: 10px;
-    margin: 0px 10px;
     height: 100%;
     border: 2px solid black;
     display: flex;

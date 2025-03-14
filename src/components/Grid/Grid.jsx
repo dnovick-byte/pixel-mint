@@ -111,7 +111,7 @@ export const Grid = ({ onMint }) => {
         }, "image/png");
     };
 
-    function toggleShade() {
+    const toggleShade = () => {
         if (shade) {
             setShade(false);
         } else {
@@ -122,7 +122,7 @@ export const Grid = ({ onMint }) => {
         setShade(!shade);
     }
 
-    function toggleLighten() {
+    const toggleLighten = () => {
         if (lighten) {
             setLighten(false);
         } else {
@@ -132,7 +132,7 @@ export const Grid = ({ onMint }) => {
         }
     }
 
-    function toggleEraser() {
+    const toggleEraser = () => {
         if (eraser) {
             setEraser(false);
         } else {

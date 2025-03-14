@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Canvas } from "../Components/Canvas";
-import { Grid } from "../Components/Grid";
+import { Grid } from "../components/Grid/Grid";
+import { Header } from "../components/Header/Header";
+import styles from "./mint.module.css";
 
 export default function MintPage() {
   const [metadataUrl, setMetadataUrl] = useState(""); // New state for metadata URL
@@ -32,7 +33,8 @@ export default function MintPage() {
   };
 
   return (
-    <div>
+    <div className={styles.wrap}>
+      <Header />
       <Grid onMint={mintNFT}/>    
     </div>
   );
