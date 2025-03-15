@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import html2canvas from "html2canvas";
 import styles from  './Grid.module.css';
+import axios from "axios";
 
-export const Grid = ({ onMint }) => {
+
+export const Grid = () => {
     const [gridSize, setGridSize] = useState(24);
     const [bgColor, setBgColor] = useState("#FFFFFF");
     const [penColor, setPenColor] = useState("#000000");
@@ -98,23 +100,6 @@ export const Grid = ({ onMint }) => {
         setEraser(false);
     };
 
-    const mint = async () => {
-
-        const img = document.getElementById("grid"); // Ensure this ID exists
-        if (!img) {
-          console.error("Grid element not found!");
-            return;
-        }
-        
-        // Capture the image
-        const canvas = await html2canvas(img);
-        canvas.toBlob((blob) => {
-            if (blob) {
-                onMint(blob); // Send Blob to parent component
-            }
-        }, "image/png");
-    };
-
     const toggleShade = () => {
         if (shade) {
             setShade(false);
@@ -145,6 +130,50 @@ export const Grid = ({ onMint }) => {
             setLighten(false);
         }
     }
+
+    const mint = async () => {
+
+        const img = document.getElementById("grid"); // Ensure this ID exists
+        if (!img) {
+            console.error("Grid element not found!");
+            return;
+        }
+        
+        // Capture the image
+        const canvas = await html2canvas(img);
+
+        canvas.toBlob(async (blob) => {
+            if (!blob) {
+                console.error("Failed to convert canvas to blob");
+                return;
+            }
+            // Create FormData and append the image
+            const formData = new FormData();
+            formData.append("file", blob, "img.png"); // Name the file
+
+
+            try {
+                const response = await axios.post("/api/upload", formData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                });
+
+                if (response.data.success) {
+                    console.log("File uploaded:", response.data.filePath);
+
+                    // Now call the mint API with the file path
+//                    await axios.post("/api/mint", {
+ //                       filePath: response.data.filePath,
+   //                     name: "Pixel Mint NFT",
+    //                    description: "An AI-generated pixel NFT",
+      //              });
+                }
+            } catch (error) {
+                console.error("Error uploading image:", error.response?.data || error.message);
+            }
+        }, "image/png");
+    };
 
 
     return (
