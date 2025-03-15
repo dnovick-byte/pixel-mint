@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Grid } from "../components/Grid/Grid";
 import { Header } from "../components/Header/Header";
 import styles from "./mint.module.css";
+import FormData from "form-data";
+
 
 export default function MintPage() {
   const [metadataUrl, setMetadataUrl] = useState(""); // New state for metadata URL
@@ -10,6 +12,8 @@ export default function MintPage() {
 
   const mintNFT = async (imagePath) => {
     try {
+      const formData = new FormData();
+      
       const response = await fetch("/api/mint", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

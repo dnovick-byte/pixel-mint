@@ -92,9 +92,13 @@ export const Grid = ({ onMint }) => {
     const resetBoard = () => {
         setBgColor(bgColor);
         setCells(createGrid());
+        setIsDrawing(true);
+        setShade(false);
+        setLighten(false);
+        setEraser(false);
     };
 
-    const takeScreenshot = async () => {
+    const mint = async () => {
 
         const img = document.getElementById("grid"); // Ensure this ID exists
         if (!img) {
@@ -147,14 +151,17 @@ export const Grid = ({ onMint }) => {
         <div className={styles.content}>
             <div className={styles.bar}>
 
-                <div className="pen-color">
-                    <input type="color" value={penColor} onChange={(e) => setPenColor(e.target.value)} />
-                    <label>Pen Color</label>
+                <div className={styles.colors}>
+                    <div className={styles.pencolor}>
+                        <input type="color" value={penColor} onChange={(e) => setPenColor(e.target.value)} />
+                        <label>Pen Color</label>
+                    </div>
+                    <div className={styles.backgroundcolor}>
+                        <input type="color" value={bgColor} onChange={(e) => setBgColor(e.target.value)} />
+                        <label>Background Color</label>
+                    </div>                    
                 </div>
-                <div className="background-color">
-                    <input type="color" value={bgColor} onChange={(e) => setBgColor(e.target.value)} />
-                    <label>Background Color</label>
-                </div>
+
                 <button onClick={toggleLighten} className={`${styles.btn} ${lighten ? styles["active"] : ""}`}>Toggle Lighten</button>
 
                 <button onClick={toggleShade} className={`${styles.btn} ${shade ? styles["active"] : ""}`}>Toggle Shade</button>
@@ -169,28 +176,24 @@ export const Grid = ({ onMint }) => {
                 <label>Grid Size: {gridSize} x {gridSize}</label>
                 <button className={`${styles.btn} ${gridLines ? styles["active"] : ""}`} onClick={() => setGridLines(!gridLines)}>Toggle Grid Lines</button>
                 <button className={styles.btn} onClick={resetBoard}>Reset Board</button>
-                <button 
-                    className={styles.btn} 
-                    onClick={takeScreenshot}
-                >
-                    Mint Image
-                </button>
+                <button className={styles.btn} onClick={mint}> Mint Image </button>
             </div>
-
-            <div id="grid" className={styles.grid} onMouseUp={handleMouseUp} style={{
-                display: "grid",
-                gridTemplateColumns: `repeat(${gridSize}, 1fr)`,
-                gridTemplateRows: `repeat(${gridSize}, 1fr)`
-            }}>
-                {cells.map((cell, index) => (
-                    <div
-                        key={cell.id}
-                        className={`${styles.cell} ${gridLines ? styles["grid-lines"] : ""}`}
-                        style={{ backgroundColor: cell.color }}
-                        onMouseDown={() => handleMouseDown(index)}
-                        onMouseOver={() => handleMouseOver(index)}
-                    />
-                ))}
+            <div className={styles.gridContainer}>
+                <div id="grid" className={styles.grid} onMouseUp={handleMouseUp} style={{
+                    display: "grid",
+                    gridTemplateColumns: `repeat(${gridSize}, 1fr)`,
+                    gridTemplateRows: `repeat(${gridSize}, 1fr)`
+                }}>
+                    {cells.map((cell, index) => (
+                        <div
+                            key={cell.id}
+                            className={`${styles.cell} ${gridLines ? styles["grid-lines"] : ""}`}
+                            style={{ backgroundColor: cell.color }}
+                            onMouseDown={() => handleMouseDown(index)}
+                            onMouseOver={() => handleMouseOver(index)}
+                        />
+                    ))}
+                </div>
             </div>
         </div>
     );
