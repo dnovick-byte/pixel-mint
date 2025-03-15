@@ -2,11 +2,19 @@ import styles from "./Header.module.css";
 export const Header = () => {
 
     return (
-        <div className={styles.container}>
-            <h1 className={styles.title}>
-                Pixel-Mint
-            </h1>
-        </div>
+        <nav className={styles.Navbar}>
+            <a className={styles.title}href="/">Pixel-Mint</a>
+            <div className={styles.menu}>
+                <ul className={styles.menuItems}>
+                    <li>
+                        <a href="wallet">Wallet</a>
+                    </li>
+                    <li>
+                        <a href="learn">Learn</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
     );
 
 };

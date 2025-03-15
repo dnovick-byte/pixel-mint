@@ -1,6 +1,5 @@
 import axios from "axios";
 import FormData from "form-data";
-import fs from "fs";
 import path from "path";
 
 export default async function handler(req, res) {
@@ -12,53 +11,41 @@ export default async function handler(req, res) {
     const wallet = '0xE5508FD606D6306a316A68a3218873eA9A91517c';
   
     try {
-        const { imagePath, name, description } = req.body; // Get image file path and NFT metadata
+        const { fullPath, name, description } = req.body; // Get image file path and NFT metadata
+
 
         const formData = new FormData();
-        formData.append("filePath", fs.createReadStream(imagePath));
+        formData.append("filePath", fullPath);
         formData.append("name", name);
         formData.append("description", description);
         formData.append("recipientAddress", wallet);
         formData.append("chain", "sepolia");
         formData.append("allowPlatformToOperateToken", "true");
 
-        const url = "https://api.verbwire.com/v1/nft/mint/quickMintFromFile";
-
-/*
-        formData.append()
-        formData.append('allowPlatformToOperateToken', 'true');
-        formData.append('chain', 'sepolia');
-        formData.append('metadataUrl', 'https://ipfs.io/ipfs/bafkreigjkcafrutdcbicyr3new6aoowgbscf6wgqyty45ckd3xur7ymldm');
-        const url = 'https://api.verbwire.com/v1/nft/mint/quickMintFromMetadataUrl';
-
-*/
-
-        const options = {
-          method: 'POST',
-          url: url,
+        const verbwireResponse = await axios({
+          method: 'post',
+          url: 'https://api.verbwire.com/v1/nft/mint/quickMintFromFile',
           headers: {
-            'X-API-Key': 'pk_live_54fec082-bbe6-4d26-9440-7b324e0ad10e',
-            ...formData.getHeaders()
-
+            'X-API-Key':api_key,
+            'Content-Type': 'multipart/form-data'
           },
           data: formData
-        };
+        });
 
-        axios(config)
-          .then(res => {
-            console.log(JSON.stringify(res.data));
-            res.send(JSON.stringify(res.data))
-          })
-          .catch(err => {
-            console.log(err);
-          });
+        // Return success response
+        return res.status(200).json({
+          success: true,
+          mintData: verbwireResponse.data
+        });
+
         
-        /*axios
-          .request(options)
-          .then(res => console.log(res.data))
-          .catch(err => console.error(err));*/
+
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      console.error('Minting error:', error.response?.data || error.message);
+      return res.status(500).json({
+          error: 'Failed to mint NFT',
+          details: error.response?.data || error.message
+      });    
     }
   }
   

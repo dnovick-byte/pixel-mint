@@ -13,6 +13,7 @@ export const Grid = () => {
     const [eraser, setEraser] = useState(false);
     const [gridLines, setGridLines] = useState(true);
     const [isDrawing, setIsDrawing] = useState(false);
+    const [preMint, setPreMint] = useState(false);
 
     const createGrid = () => {
         return Array.from({ length: gridSize * gridSize }, (_, i) => ({ id: i, color: bgColor }));
@@ -131,6 +132,10 @@ export const Grid = () => {
         }
     }
 
+    const preMintFunc = () => {
+        setPreMint(true);
+    }
+
     const mint = async () => {
 
         const img = document.getElementById("grid"); // Ensure this ID exists
@@ -163,11 +168,11 @@ export const Grid = () => {
                     console.log("File uploaded:", response.data.filePath);
 
                     // Now call the mint API with the file path
-//                    await axios.post("/api/mint", {
- //                       filePath: response.data.filePath,
-   //                     name: "Pixel Mint NFT",
-    //                    description: "An AI-generated pixel NFT",
-      //              });
+                    await axios.post("/api/mint", {
+                        fullPath: response.data.fullPath, // pass full path
+                        name: "Pixel Mint NFT",
+                        description: "An AI-generated pixel NFT",
+                    });
                 }
             } catch (error) {
                 console.error("Error uploading image:", error.response?.data || error.message);
@@ -178,6 +183,22 @@ export const Grid = () => {
 
     return (
         <div className={styles.content}>
+            { preMint && 
+                <div className={styles.preMint}>
+                    <div className={styles.preMintContent}>
+                        <div className={styles.preMintSquare}>
+                            <input type="text" placeholder="Name of the NFT"/>
+                            <input type="text" placeholder="Description of the NFT"/>
+                            <input list="chains" placeholder="chain"/>
+                            <datalist id="chains">
+                                <option value="sepolia" />
+                                <option value="mumbai" />
+                            </datalist>
+
+                        </div>
+                    </div>
+                </div>
+            }
             <div className={styles.bar}>
 
                 <div className={styles.colors}>
@@ -205,7 +226,7 @@ export const Grid = () => {
                 <label>Grid Size: {gridSize} x {gridSize}</label>
                 <button className={`${styles.btn} ${gridLines ? styles["active"] : ""}`} onClick={() => setGridLines(!gridLines)}>Toggle Grid Lines</button>
                 <button className={styles.btn} onClick={resetBoard}>Reset Board</button>
-                <button className={styles.btn} onClick={mint}> Mint Image </button>
+                <button className={styles.btn} onClick={preMintFunc}> Mint Image </button>
             </div>
             <div className={styles.gridContainer}>
                 <div id="grid" className={styles.grid} onMouseUp={handleMouseUp} style={{
