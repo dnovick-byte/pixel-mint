@@ -216,19 +216,22 @@ export default function DrawPage() {
                             <Square className={styles.toolIcon}/>
 
                         </div>
+                        <div className={styles.centeredGridSize}>
+                          <input
+                            type="range"
+                            min="1"
+                            max="100"
+                            value={gridSize}
+                            onChange={(e) => setGridSize(Number(e.target.value))}
+                          />
+                          <label>Grid Size: {gridSize} x {gridSize}</label>
+                        </div>
                     
                     </div>
 
 
             
-                    <input
-                        type="range"
-                        min="1"
-                        max="100"
-                        value={gridSize}
-                        onChange={(e) => setGridSize(Number(e.target.value))}
-                    />
-                    <label>Grid Size: {gridSize} x {gridSize}</label>
+
               
 
 

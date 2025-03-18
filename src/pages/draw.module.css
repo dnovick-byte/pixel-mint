@@ -145,6 +145,11 @@
   margin-bottom: 1.5rem;
 }
 
+
+.toolButtons > :nth-child(9) { 
+  grid-column: span 2; /* Makes the 9th item span across all 2 columns */
+}
+
 .toolButton {
   flex: 1;
   display: flex;
@@ -434,3 +439,9 @@
 }
 
 
+
+.centeredGridSize {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
