@@ -4,14 +4,7 @@ import styles from  './Grid.module.css';
 import axios from "axios";
 
 
-export const Grid = () => {
-    const [gridSize, setGridSize] = useState(24);
-    const [bgColor, setBgColor] = useState("#FFFFFF");
-    const [penColor, setPenColor] = useState("#000000");
-    const [shade, setShade] = useState(false);
-    const [lighten, setLighten] = useState(false);
-    const [eraser, setEraser] = useState(false);
-    const [gridLines, setGridLines] = useState(true);
+export const Grid = ({ penColor, bgColor, tool, gridSize, setReset, gridLines }) => {
     const [isDrawing, setIsDrawing] = useState(false);
     const [preMint, setPreMint] = useState(false);
 
@@ -24,6 +17,14 @@ export const Grid = () => {
     useEffect(() => {
         setCells(createGrid());
     }, [gridSize, bgColor]);
+
+    useEffect(() => { // i do not understand why i can't just use the setCells(createGrid()); here instead of having the resetBoard function
+        setReset(() => resetBoard);
+    }, [setReset]);
+
+    const resetBoard = () => {
+        setCells(createGrid());
+    };
 
     const handleMouseDown = (index) => {
         setIsDrawing(true);
@@ -45,10 +46,15 @@ export const Grid = () => {
     };
 
     const getUpdatedColor = (color) => {
-        if (shade) return adjustColor(color, -5);
-        if (lighten) return adjustColor(color, 5);
-        if (eraser) return bgColor;
-        return penColor;
+        if (tool === "shade") {
+            return adjustColor(color, -5);
+        } else if (tool === "lighten") {
+            return adjustColor(color, 5);
+        } else if (tool ==="eraser") {
+            return bgColor
+        } else { // tool === "pen"
+            return penColor;
+        }
     };
 
     const adjustColor = (color, percent) => {
@@ -92,48 +98,44 @@ export const Grid = () => {
         return `rgb(${r}, ${g}, ${b})`;
     };
 
-    const resetBoard = () => {
-        setBgColor(bgColor);
-        setCells(createGrid());
-        setIsDrawing(true);
-        setShade(false);
-        setLighten(false);
-        setEraser(false);
-    };
 
-    const toggleShade = () => {
-        if (shade) {
-            setShade(false);
-        } else {
-            setShade(true);
-            setLighten(false);
-            setEraser(false);
-        }
-        setShade(!shade);
-    }
-
-    const toggleLighten = () => {
-        if (lighten) {
-            setLighten(false);
-        } else {
-            setLighten(true);
-            setShade(false);
-            setEraser(false);
-        }
-    }
-
-    const toggleEraser = () => {
-        if (eraser) {
-            setEraser(false);
-        } else {
-            setEraser(true);
-            setShade(false);
-            setLighten(false);
-        }
-    }
 
     const preMintFunc = () => {
         setPreMint(true);
+    }
+    
+
+    const getImgUrl = async () => {
+        const img = document.getElementById("grid"); // Ensure this ID exists
+        if (!img) {
+            console.error("Grid element not found!");
+            return;
+        }
+        
+        // Capture the image
+        const canvas = await html2canvas(img);
+
+        canvas.toBlob(async (blob) => {
+            if (!blob) {
+                console.error("Failed to convert canvas to blob");
+                return;
+            }
+            // Create FormData and append the image
+            const formData = new FormData();
+            formData.append("file", blob, "img.png"); // Name the file
+
+            try {
+                const response = await axios.post("/api/upload", formData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                });
+                console.log(response.data.fullPath);
+                return response.data.fullPath;
+            } catch(err) {
+                console.error("Error capturing image:", err.response?.data || err.message);
+            }
+        })
     }
 
     const mint = async () => {
@@ -182,68 +184,21 @@ export const Grid = () => {
 
 
     return (
-        <div className={styles.content}>
-            { preMint && 
-                <div className={styles.preMint}>
-                    <div className={styles.preMintContent}>
-                        <div className={styles.preMintSquare}>
-                            <input type="text" placeholder="Name of the NFT"/>
-                            <input type="text" placeholder="Description of the NFT"/>
-                            <input list="chains" placeholder="chain"/>
-                            <datalist id="chains">
-                                <option value="sepolia" />
-                                <option value="mumbai" />
-                            </datalist>
-
-                        </div>
-                    </div>
-                </div>
-            }
-            <div className={styles.bar}>
-
-                <div className={styles.colors}>
-                    <div className={styles.pencolor}>
-                        <input type="color" value={penColor} onChange={(e) => setPenColor(e.target.value)} />
-                        <label>Pen Color</label>
-                    </div>
-                    <div className={styles.backgroundcolor}>
-                        <input type="color" value={bgColor} onChange={(e) => setBgColor(e.target.value)} />
-                        <label>Background Color</label>
-                    </div>                    
-                </div>
-
-                <button onClick={toggleLighten} className={`${styles.btn} ${lighten ? styles["active"] : ""}`}>Toggle Lighten</button>
-
-                <button onClick={toggleShade} className={`${styles.btn} ${shade ? styles["active"] : ""}`}>Toggle Shade</button>
-                <button onClick={toggleEraser} className={`${styles.btn} ${eraser ? styles["active"] : ""}`}>Toggle Eraser</button>
-                <input
-                    type="range"
-                    min="1"
-                    max="100"
-                    value={gridSize}
-                    onChange={(e) => setGridSize(Number(e.target.value))}
-                />
-                <label>Grid Size: {gridSize} x {gridSize}</label>
-                <button className={`${styles.btn} ${gridLines ? styles["active"] : ""}`} onClick={() => setGridLines(!gridLines)}>Toggle Grid Lines</button>
-                <button className={styles.btn} onClick={resetBoard}>Reset Board</button>
-                <button className={styles.btn} onClick={preMintFunc}> Mint Image </button>
-            </div>
-            <div className={styles.gridContainer}>
-                <div id="grid" className={styles.grid} onMouseUp={handleMouseUp} style={{
-                    display: "grid",
-                    gridTemplateColumns: `repeat(${gridSize}, 1fr)`,
-                    gridTemplateRows: `repeat(${gridSize}, 1fr)`
-                }}>
-                    {cells.map((cell, index) => (
-                        <div
-                            key={cell.id}
-                            className={`${styles.cell} ${gridLines ? styles["grid-lines"] : ""}`}
-                            style={{ backgroundColor: cell.color }}
-                            onMouseDown={() => handleMouseDown(index)}
-                            onMouseOver={() => handleMouseOver(index)}
-                        />
-                    ))}
-                </div>
+        <div className={styles.gridContainer}>
+            <div id="grid" className={styles.grid} onMouseUp={handleMouseUp} style={{
+                display: "grid",
+                gridTemplateColumns: `repeat(${gridSize}, 1fr)`,
+                gridTemplateRows: `repeat(${gridSize}, 1fr)`
+            }}>
+                {cells.map((cell, index) => (
+                    <div
+                        key={cell.id}
+                        className={`${styles.cell} ${gridLines ? styles["grid-lines"] : ""}`}
+                        style={{ backgroundColor: cell.color }}
+                        onMouseDown={() => handleMouseDown(index)}
+                        onMouseOver={() => handleMouseOver(index)}
+                    />
+                ))}
             </div>
         </div>
     );

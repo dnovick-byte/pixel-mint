@@ -1,0 +1,115 @@
+.container {
+    margin-bottom: 2rem;
+  }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .artworkCard {
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .artworkCard:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+  
+  .artworkImage {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    display: block;
+  }
+  
+  .artworkInfo {
+    padding: 1rem;
+  }
+  
+  .artworkTitle {
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+  }
+  
+  .artworkArtist {
+    font-size: 0.875rem;
+    color: #6b7280;
+  }
+  
+  .artworkMeta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.5rem;
+  }
+  
+  .artworkDate {
+    font-size: 0.75rem;
+    color: #6b7280;
+  }
+  
+  .artworkAction {
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    border-radius: 9999px;
+    cursor: pointer;
+  }
+  
+  .artworkAction:hover {
+    background-color: #f3f4f6;
+  }
+  
+  .actionIcon {
+    width: 16px;
+    height: 16px;
+    color: #3b82f6;
+  }
+  
+  .srOnly {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+  
+  .loadMoreContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+  
+  .loadMoreButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    background-color: #ffffff;
+    color: #4b5563;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    cursor: pointer;
+  }
+  
+  .loadMoreButton:hover {
+    background-color: #f9fafb;
+  }
+  
+  

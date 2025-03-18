@@ -13,7 +13,6 @@ export default async function handler(req, res) {
     try {
         const { fullPath, name, description } = req.body; // Get image file path and NFT metadata
 
-
         const formData = new FormData();
         formData.append("filePath", fullPath);
         formData.append("name", name);

@@ -1,0 +1,127 @@
+.features {
+    padding: 3rem 1rem;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  .featuresContent {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+  
+  .featureText {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .featureLabel {
+    display: inline-block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #3b82f6;
+    background-color: #eff6ff;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+  }
+  
+  .featureTitle {
+    font-size: 2.25rem;
+    font-weight: bold;
+    line-height: 1.2;
+  }
+  
+  .featureDescription {
+    color: #6b7280;
+  }
+  
+  .featureSteps {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .featureStep {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .stepNumber {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    background-color: #eff6ff;
+    color: #3b82f6;
+    font-weight: bold;
+    border-radius: 9999px;
+    flex-shrink: 0;
+  }
+  
+  .stepContent {
+    flex: 1;
+  }
+  
+  .stepTitle {
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+  }
+  
+  .stepDescription {
+    font-size: 0.875rem;
+    color: #6b7280;
+  }
+  
+  .primaryButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 0.75rem 1.5rem;
+    background-color: #3b82f6;
+    color: #ffffff;
+    border: none;
+    border-radius: 0.375rem;
+    text-decoration: none;
+    margin-top: 1rem;
+    align-self: flex-start;
+  }
+  
+  .primaryButton:hover {
+    background-color: #2563eb;
+  }
+  
+  .buttonIcon {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .featureImage {
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+  
+  .previewImage {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  
+  @media (max-width: 768px) {
+    .featuresContent {
+      grid-template-columns: 1fr;
+    }
+  
+    .featureTitle {
+      font-size: 1.875rem;
+    }
+  }
+  
+  

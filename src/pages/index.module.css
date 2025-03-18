@@ -1,0 +1,351 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  .header {
+    border-bottom: 1px solid #e5e7eb;
+    background-color: #ffffff;
+  }
+  
+  .headerContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 64px;
+    padding: 0 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: bold;
+  }
+  
+  .logoIcon {
+    width: 20px;
+    height: 20px;
+    color: #3b82f6;
+  }
+  
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  
+  .navLink {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #4b5563;
+    text-decoration: none;
+  }
+  
+  .navLink:hover {
+    color: #111827;
+  }
+  
+  .signInButton {
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    background-color: #3b82f6;
+    color: #ffffff;
+    border: none;
+    border-radius: 0.375rem;
+    cursor: pointer;
+  }
+  
+  .signInButton:hover {
+    background-color: #2563eb;
+  }
+  
+  .main {
+    flex: 1;
+  }
+  
+  .hero {
+    padding: 3rem 1rem;
+    background-color: #f9fafb;
+  }
+  
+  .heroContent {
+    max-width: 980px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .heroTitle {
+    font-size: 2.25rem;
+    font-weight: bold;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  
+  .heroSubtitle {
+    font-size: 1.125rem;
+    color: #6b7280;
+    max-width: 750px;
+    margin: 0 auto 2rem;
+  }
+  
+  .heroButtons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
+  
+  .primaryButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 0.75rem 1.5rem;
+    background-color: #3b82f6;
+    color: #ffffff;
+    border: none;
+    border-radius: 0.375rem;
+    text-decoration: none;
+  }
+  
+  .primaryButton:hover {
+    background-color: #2563eb;
+  }
+  
+  .secondaryButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 0.75rem 1.5rem;
+    background-color: #ffffff;
+    color: #4b5563;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    text-decoration: none;
+  }
+  
+  .secondaryButton:hover {
+    background-color: #f9fafb;
+  }
+  
+  .buttonIcon {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .features {
+    padding: 3rem 1rem;
+  }
+  
+  .featuresContent {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+  
+  .featureText {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .featureLabel {
+    display: inline-block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #3b82f6;
+    background-color: #eff6ff;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+  }
+  
+  .featureTitle {
+    font-size: 2.25rem;
+    font-weight: bold;
+    line-height: 1.2;
+  }
+  
+  .featureDescription {
+    color: #6b7280;
+  }
+  
+  .featureSteps {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .featureStep {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .stepNumber {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    background-color: #eff6ff;
+    color: #3b82f6;
+    font-weight: bold;
+    border-radius: 9999px;
+  }
+  
+  .stepContent {
+    flex: 1;
+  }
+  
+  .stepTitle {
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+  }
+  
+  .stepDescription {
+    font-size: 0.875rem;
+    color: #6b7280;
+  }
+  
+  .featureImage {
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+  
+  .previewImage {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  
+  .gallery {
+    background-color: #f9fafb;
+    padding: 3rem 1rem;
+  }
+  
+  .galleryContent {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .galleryTitle {
+    font-size: 2.25rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  
+  .galleryDescription {
+    color: #6b7280;
+    margin-bottom: 2rem;
+  }
+  
+  .artworkGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .artworkCard {
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .artworkCard:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+  
+  .artworkImage {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  
+  .artworkInfo {
+    padding: 1rem;
+  }
+  
+  .artworkTitle {
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+  }
+  
+  .artworkArtist {
+    font-size: 0.875rem;
+    color: #6b7280;
+  }
+  
+  .galleryAction {
+    margin-top: 2rem;
+  }
+  
+  .footer {
+    border-top: 1px solid #e5e7eb;
+    background-color: #ffffff;
+    padding: 2rem 1rem;
+  }
+  
+  .footerContent {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .copyright {
+    font-size: 0.875rem;
+    color: #6b7280;
+  }
+  
+  .footerNav {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .footerLink {
+    font-size: 0.875rem;
+    color: #6b7280;
+    text-decoration: none;
+  }
+  
+  .footerLink:hover {
+    color: #111827;
+  }
+  
+  @media (max-width: 768px) {
+    .featuresContent {
+      grid-template-columns: 1fr;
+    }
+  
+    .heroTitle {
+      font-size: 1.875rem;
+    }
+  
+    .featureTitle {
+      font-size: 1.875rem;
+    }
+  
+    .galleryTitle {
+      font-size: 1.875rem;
+    }
+  }
+  
+  
