@@ -34,3 +34,12 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Next Steps (no particular order)
+- Implement database to hold imageurl, name, description, opensea link for each nft minted, so you can list them in the gallery. Have the database hold these and not the key or ID so you do not need to make API call for each one every time
+- implement mint nft api
+- implement sign in with wallet(some way to know what wallet to send to when nft is minted)
+- fix styling for what is around the grid on the draw page
+- edit the tips
+- maybe make the preview picture smalelr
+- make the final page picture smaller maybe like above

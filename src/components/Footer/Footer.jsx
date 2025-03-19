@@ -8,7 +8,7 @@ export const Footer = () => {
       <div className={styles.footerContent}>
         <div className={styles.logo}>
           <Sparkles className={styles.logoIcon} />
-          <span>Sketch & Mint</span>
+          <span>PixelMint</span>
         </div>
         <p className={styles.copyright}>© 2025 Sketch & Mint. All rights reserved.</p>
         <nav className={styles.footerNav}>

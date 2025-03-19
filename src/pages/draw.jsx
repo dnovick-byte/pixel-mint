@@ -125,7 +125,15 @@ export default function DrawPage() {
                 <ArrowLeft className={styles.buttonIcon} />
                 Back to Preview
               </button>
-              <button className={styles.mintButton} onClick={() => {setStep("success"); mint();}}>
+              <button 
+                className={styles.mintButton} 
+                onClick={async () => {
+                  setStep("success"); 
+                  mint();
+                  await axios.post("/api/clear-uploads"); // Clear uploads after minting
+
+                }}
+              >
                 Create My Digital Collectible
                 <Sparkles className={styles.buttonIcon} />
               </button>
@@ -342,7 +350,7 @@ export default function DrawPage() {
 
             <div className={styles.successArtwork}>
               <img
-                src="/placeholder.svg?height=400&width=400&text=Your+Artwork"
+                src={imgUrl}
                 alt="Your minted artwork"
                 className={styles.successImage}
               />
