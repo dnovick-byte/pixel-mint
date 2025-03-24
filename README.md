@@ -51,9 +51,14 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
     - dropdown menu of testnets that you can mint to
     - link to verbwire wallet to view it
 
-- Implement Database
-    - Store imageurl, name, description, author? each time an NFT is minted
+- Minting
+    - better way to figure out where you are minting to
+    - dropdown menu of testnets that you can mint to
+    - link to verbwire wallet to view it
+    - loading screen to display before nft is sent to be minted
 
-- Implement gallery view (dependent on database functionality)
-- Recently created artwork on home page (small gallery)
-- How ir works page
+- How it works page
+
+- Database
+    - Might want to store more things for each nft, like an address, etc.
+
