@@ -9,11 +9,15 @@
 
 .grid {
     display: grid;
+    padding: 5%;
     width: 600px;
     height: 600px;
+    border: 1px solid #d1d5db;
+    border-radius: 20px;
+    background-color: #eff6ff;
+
 } 
 .gridContainer {
-    padding: 2%;
     border-radius: 20px;
     box-sizing: border-box;
 }

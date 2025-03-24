@@ -1,7 +1,15 @@
 import Link from "next/link"
 import styles from "./GalleryPreview.module.css"
+import { useState } from "react"
 
-export const GalleryPreview = () => {
+
+
+export const GalleryPreview = ({ nfts }) => {
+//  const [nfts, setNfts] = useState([]); // State to hold fetched NFTs
+  const [loading, setLoading] = useState(true); // State to handle loading state
+  const [error, setError] = useState(null); // State for any errors that occur during fetch
+
+  
   return (
     <section className={styles.gallery}>
       <div className={styles.galleryContent}>
@@ -10,16 +18,16 @@ export const GalleryPreview = () => {
           Check out what others have created and turned into digital collectibles
         </p>
         <div className={styles.artworkGrid}>
-          {[1, 2, 3, 4, 5, 6].map((i) => (
-            <div key={i} className={styles.artworkCard}>
+          {nfts.map((nft, index) => (
+            <div key={index} className={styles.artworkCard}>
               <img
-                src={`/placeholder.svg?height=300&width=300&text=Artwork ${i}`}
-                alt={`Community artwork ${i}`}
+                src={nft.image}
+                alt={nft.name}
                 className={styles.artworkImage}
               />
               <div className={styles.artworkInfo}>
-                <h3 className={styles.artworkTitle}>Awesome Creation #{i}</h3>
-                <p className={styles.artworkArtist}>By Artist{i}</p>
+                <h3 className={styles.artworkTitle}>{nft.name}</h3>
+                <p className={styles.artworkArtist}>{nft.description}</p>
               </div>
             </div>
           ))}

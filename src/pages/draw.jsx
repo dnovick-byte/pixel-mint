@@ -28,7 +28,7 @@ export default function DrawPage() {
   const mint = async () => {
     console.log( name, description);
     console.log(apiImg);
-    await axios.post("/api/mint", {
+    await axios.post("/api/mint", { // do a loading screen before saying it is minted
       filePathRelative: apiImg, // pass the path
       name: name,
       description: description,
@@ -133,7 +133,7 @@ export default function DrawPage() {
                 onClick={async () => {
                   setStep("success"); 
                   await mint();
-                  //await axios.post("/api/clear-uploads"); // Clear uploads after minting
+                  await axios.post("/api/clear-uploads"); // Clear uploads after minting
 
                 }}
               >
@@ -241,17 +241,12 @@ export default function DrawPage() {
                     </div>
 
 
-            
-
-              
-
-
                     <div className={styles.tips}>
                         <h3 className={styles.tipsTitle}>Tips</h3>
                         <ul className={styles.tipsList}>
                             <li>Click and drag to draw</li>
                             <li>Use the eraser to remove mistakes</li>
-                            <li>Try different colors and brush sizes</li>
+                            <li>Try different colors and drawing tools</li>
                             <li>Keep it simple - sometimes less is more!</li>
                         </ul>
                     </div>

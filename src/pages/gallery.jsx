@@ -5,62 +5,48 @@ import { Header } from "../components/Header/Header"
 import { Footer }from "../components/Footer/Footer"
 import { GalleryHeader } from "../components/Gallery/GalleryHeader"
 import { GalleryTabs, TabPanel } from "../components/Gallery/GalleryTabs"
-import ArtworkGrid from "../components/gallery/ArtworkGrid"
+import { ArtworkGrid } from "../components/gallery/ArtworkGrid"
 import styles from "./gallery.module.css"
+import axios from "axios"
 
-// Mock data for the gallery
-const generateArtworks = (count, prefix) => {
-  return Array.from({ length: count }).map((_, i) => ({
-    id: `${prefix}-${i + 1}`,
-    title: `${prefix} Creation #${i + 1}`,
-    artist: `${prefix}Artist${i + 1}`,
-    date: prefix === "Featured" ? "Staff Pick" : prefix === "Recent" ? "Created today" : "Created 2 days ago",
-    imageUrl: `/placeholder.svg?height=300&width=300&text=${prefix} ${i + 1}`,
-  }))
+
+// Server-side fetching: Fetch NFTs dynamically on each request
+export async function getServerSideProps(context) {
+  const { query } = context;
+  const limit = query.limit || 8; // Default to 8 items if not specified
+  const orderBy = query.orderBy || "id"; // Default sorting
+
+  try {
+    // Fetch NFTs dynamically based on query parameters
+    const response = await axios.get("http://localhost:3000/api/fetch_nfts", {
+      params: { limit, orderBy }
+    });    
+    const nfts = response.data;
+
+    return { props: { nfts } };
+  } catch (error) {
+    console.error("Error fetching NFTs:", error);
+    return { props: { nfts: [] } }; // Provide empty array if there's an error
+  }
 }
 
-export default function GalleryPage() {
+export default function GalleryPage({ nfts }) {
   const [searchQuery, setSearchQuery] = useState("")
-
-  const trendingArtworks = generateArtworks(8, "Trending")
-  const recentArtworks = generateArtworks(8, "Recent")
-  const featuredArtworks = generateArtworks(4, "Featured")
-
+  console.log(nfts)
+  
   return (
     <div className={styles.container}>
         <Header />
-
         <main className={styles.main}>
             <div className={styles.content}>
                 <GalleryHeader onSearch={setSearchQuery} />
 
-                <GalleryTabs tabs={["Trending", "Recent", "Featured"]} defaultTab="Trending">
-                    <TabPanel value="Trending">
-                    <ArtworkGrid
-                        artworks={trendingArtworks.filter((art) =>
-                        searchQuery ? art.title.toLowerCase().includes(searchQuery.toLowerCase()) : true,
-                        )}
-                        onLoadMore={() => console.log("Load more trending")}
-                    />
-                    </TabPanel>
-
-                    <TabPanel value="Recent">
-                    <ArtworkGrid
-                        artworks={recentArtworks.filter((art) =>
-                        searchQuery ? art.title.toLowerCase().includes(searchQuery.toLowerCase()) : true,
-                        )}
-                        onLoadMore={() => console.log("Load more recent")}
-                    />
-                    </TabPanel>
-
-                    <TabPanel value="Featured">
-                    <ArtworkGrid
-                        artworks={featuredArtworks.filter((art) =>
-                        searchQuery ? art.title.toLowerCase().includes(searchQuery.toLowerCase()) : true,
-                        )}
-                    />
-                    </TabPanel>
-                </GalleryTabs>
+                <ArtworkGrid
+                  artworks={nfts}
+                  onLoadMore={() => console.log('loading more')}
+                />
+               
+               
             </div>
         </main>
 
@@ -69,4 +55,13 @@ export default function GalleryPage() {
     </div>
   )
 }
+
+/*
+ <GalleryTabs tabs={["Trending", "Recent", "Featured"]} defaultTab="Recent">
+                  <TabPanel value="Recent">
+                    
+                  </TabPanel>
+
+                </GalleryTabs>
+*/
 

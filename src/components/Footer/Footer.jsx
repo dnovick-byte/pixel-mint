@@ -10,7 +10,7 @@ export const Footer = () => {
           <Sparkles className={styles.logoIcon} />
           <span>PixelMint</span>
         </div>
-        <p className={styles.copyright}>© 2025 Sketch & Mint. All rights reserved.</p>
+        <p className={styles.copyright}>© 2025 PixelMint. All rights reserved.</p>
         <nav className={styles.footerNav}>
           <Link href="#" className={styles.footerLink}>
             Terms

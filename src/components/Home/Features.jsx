@@ -44,7 +44,7 @@ export const Features = () => {
         </div>
         <div className={styles.featureImage}>
           <img
-            src="/placeholder.svg?height=400&width=400"
+            src="features.png"
             alt="Drawing canvas preview"
             className={styles.previewImage}
           />

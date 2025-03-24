@@ -3,13 +3,16 @@ import path from 'path';
 import axios from 'axios';
 import FormData from 'form-data';
 
-export default function handler(req, res) {
+
+export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method Not Allowed" });
   }
 
   const api_key = process.env.API_KEY;
   const wallet = process.env.WALLET_ADDRESS;
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+  const this_chain = 'sepolia';
 
   // Get the data from the request body
   const { filePathRelative, name, description } = req.body;
@@ -28,63 +31,68 @@ export default function handler(req, res) {
   // Construct the full file path from the relative path
   const filePath = path.join(process.cwd(), 'public', filePathRelative.replace(/^\/+/, ''));
 
-  console.log('Resolved file path:', filePath); // Log the resolved path for debugging
-
   // Check if the file exists before attempting to read it
   if (!fs.existsSync(filePath)) {
     return res.status(400).json({ error: "File not found" });
   }
 
-  // Create a read stream for the file
-  const fileStream = fs.createReadStream(filePath);
 
-  // Create a FormData instance
-  const formData = new FormData();
-  formData.append("filePath", fileStream, name);  // Append the file to FormData
-  formData.append("name", name);  // Append name
-  formData.append("description", description);  // Append description
-  formData.append("recipientAddress", wallet);  // Append wallet address
-  formData.append("allowPlatformToOperateToken", "true");  // Add additional data
-  formData.append("data", ""); // attributes
-  formData.append("chain", "sepolia");  // Chain info
+  try {
+    // Create a read stream for the file
+    const fileStream = fs.createReadStream(filePath);
 
-  // Use axios.post with .then() to handle the response
-  axios.post('https://api.verbwire.com/v1/nft/mint/quickMintFromFile', formData, {
-    headers: {
-      'X-API-Key': api_key,
-      ...formData.getHeaders()  // Add the correct content-type headers for multipart/form-data
-    }
-  })
-    .then((response) => {
-      // Handle the success response from Verbwire
-      if (response && response.data) {
-        console.log('Verbwire Response:', response.data); // can delete this
-        return res.status(200).json({
-          success: true,
-          mintData: response.data
-        });
-      } else { // should not happen
-        return res.status(500).json({
-          error: 'No data returned from API'
-        });
-      }
-    })
-    .catch((error) => {
-      // Handle any errors that occurred during the request
-      console.error('Minting error:', error);
+    let formData = new FormData(); // Create a FormData instance
+    formData.append("filePath", fileStream, name);  // Append the file to FormData
 
-      // Check if the error has a response object
-      if (error.response) {
-        console.error('Error response:', error.response);
-        return res.status(500).json({
-          error: 'Failed to mint NFT',
-          details: error.response.data || error.message
-        });
-      } else {
-        return res.status(500).json({
-          error: 'Failed to mint NFT',
-          details: error.message
-        });
+    // Step 1: Store the NFT
+    const storeResponse = await axios.post('https://api.verbwire.com/v1/nft/store/file', formData, {
+      headers: {
+        'X-API-Key': api_key,
+        ...formData.getHeaders()  // Add the correct content-type headers for multipart/form-data  
       }
     });
+    if (!storeResponse || !storeResponse.data) {
+      return res.status(500).json({ error: 'No data returned from storing API' });
+    }
+
+    const imgUrl = storeResponse.data.ipfs_storage.ipfs_url;
+    formData = new FormData();
+    formData.append("imageUrl", imgUrl);
+    formData.append("name", name);  // Append name
+    formData.append("description", description);  // Append description
+    formData.append("recipientAddress", wallet);  // Append wallet address
+    formData.append("data", `[{"trait_type":"Created_On","value":"PixelMint"}]`); // attributes
+    formData.append("chain", this_chain);  // Chain info
+
+    // Step 2: Mint NFT
+    const mintResponse = await axios.post('https://api.verbwire.com/v1/nft/mint/quickMintFromMetadata', formData, {
+      headers: {
+        'X-API-Key': api_key,
+        ...formData.getHeaders()  // Add the correct content-type headers for multipart/form-data  
+      } 
+    });
+    if (!mintResponse || !mintResponse.data) {
+      return res.status(500).json({ error: 'No data returned from minting API' });
+    }
+
+    // Step 3: Store NFT info in database
+    await axios.post(`${BASE_URL}/api/db_add`, {
+      name: name,
+      description: description,
+      image: imgUrl    
+    });
+
+    // Return successful response
+    return res.status(200).json({
+      success: true,
+      mintData: mintResponse.data
+    });
+
+  } catch (error) {
+    console.error('Minting error:', error);
+    return res.status(500).json({
+      error: 'Failed to mint NFT',
+      details: error.response?.data || error.message
+    });
+  }
 }

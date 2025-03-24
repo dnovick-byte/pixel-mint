@@ -3,7 +3,7 @@
 import React, { useState } from "react"
 import styles from "./GalleryTabs.module.css"
 
-const GalleryTabs = ({ tabs, defaultTab, onTabChange, children }) => {
+export const GalleryTabs = ({ tabs, defaultTab, onTabChange, children }) => {
   const [activeTab, setActiveTab] = useState(defaultTab || tabs[0])
 
   const handleTabChange = (tab) => {
@@ -43,4 +43,3 @@ export const TabPanel = ({ children, value }) => {
   return <div data-value={value}>{children}</div>
 }
 
-export default GalleryTabs

@@ -242,7 +242,6 @@
 
 .canvasContainer { /* need to get the grid to perfectly fit container*/
   flex: 1;
-  border: 1px solid #d1d5db;
   border-radius: 0.5rem;
   overflow: hidden;
   background-color: #ffffff;
