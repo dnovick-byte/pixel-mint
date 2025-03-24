@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 
+// API route to clear the uploads folder, where the images are stored
 export default function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method Not Allowed" });

@@ -19,6 +19,7 @@ export default function DrawPage() {
   const [reset, setReset] = useState(null)
   const [gridLines, setGridLines] = useState(true)
   const [imgUrl, setImgUrl] = useState(null)
+  const [apiImg, setApiImg] = useState(null)
   const[name, setName] = useState(null)
   const [description, setDescription] = useState(null)
 
@@ -26,11 +27,12 @@ export default function DrawPage() {
   
   const mint = async () => {
     console.log( name, description);
-    /*await axios.post("/api/mint", {
-      fullPath: imgUrl, // pass full path
+    console.log(apiImg);
+    await axios.post("/api/mint", {
+      filePathRelative: apiImg, // pass the path
       name: name,
       description: description,
-    });*/
+    });
   }
 
 
@@ -94,6 +96,7 @@ export default function DrawPage() {
                             console.log("Trying to load image from:", response.data.fullPath);
                             const fullUrl = new URL(response.data.filePath, window.location.origin).href;
                             setImgUrl(fullUrl);
+                            setApiImg(response.data.filePath);
                         }
                     } catch (error) {
                         console.error("Error uploading image:", error.response?.data || error.message);
@@ -129,8 +132,8 @@ export default function DrawPage() {
                 className={styles.mintButton} 
                 onClick={async () => {
                   setStep("success"); 
-                  mint();
-                  await axios.post("/api/clear-uploads"); // Clear uploads after minting
+                  await mint();
+                  //await axios.post("/api/clear-uploads"); // Clear uploads after minting
 
                 }}
               >
@@ -355,7 +358,7 @@ export default function DrawPage() {
                 className={styles.successImage}
               />
               <div className={styles.artworkDetails}>
-                <h3 className={styles.artworkTitle}>My Amazing Creation</h3>
+                <h3 className={styles.artworkTitle}>{name}</h3>
                 <p className={styles.artworkInfo}>Created by You • Just now</p>
               </div>
             </div>

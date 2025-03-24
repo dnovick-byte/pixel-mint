@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^2.2.0",
+    "@prisma/client": "^6.5.0",
     "axios": "^1.8.2",
     "dotenv": "^16.4.7",
     "form-data": "^4.0.2",
@@ -19,6 +20,7 @@
     "next": "15.2.1",
     "open": "^10.1.0",
     "openai": "^4.86.2",
+    "prisma": "^6.5.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

@@ -43,3 +43,17 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 - edit the tips
 - maybe make the preview picture smalelr
 - make the final page picture smaller maybe like above
+
+## Next Steps (ordered)
+- Implement the mint API
+    - first manually input wallet id on sepolia
+    - then log in with verbwire wallet and automatically mint it to logged in wallet on sepolia
+    - dropdown menu of testnets that you can mint to
+    - link to verbwire wallet to view it
+
+- Implement Database
+    - Store imageurl, name, description, author? each time an NFT is minted
+
+- Implement gallery view (dependent on database functionality)
+- Recently created artwork on home page (small gallery)
+- How ir works page

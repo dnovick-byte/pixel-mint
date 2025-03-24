@@ -1,26 +1,29 @@
 import axios from 'axios';
+
+// API route to view NFTs in user's wallet
+// right now it is passing sepolia as a parameter, should create user input dropdown to dictate what chain it is
 export default async function handler(req, res) {
 
     if (req.method != "GET") {
         return res.status(405).json({ error: "Method Not Allowed" });
     }
-    const wallet = "0xE5508FD606D6306a316A68a3218873eA9A91517c";
-    const key = 'pk_live_54fec082-bbe6-4d26-9440-7b324e0ad10e';
+    const key = process.env.API_KEY;
+    const wallet = process.env.WALLET_ADDRESS;
     const options = {
-    method: 'GET',
-    url: 'https://api.verbwire.com/v1/nft/data/owned',
-    params: {
-        walletAddress: wallet,
-        chain: 'sepolia',
-        tokenType: 'nft721',
-        sortDirection: 'ASC',
-        limit: '1000',
-        page: '1'
-    },
-    headers: {
-        accept: 'application/json',
-        'X-API-Key': key
-    }
+        method: 'GET',
+        url: 'https://api.verbwire.com/v1/nft/data/owned',
+        params: {
+            walletAddress: wallet,
+            chain: 'sepolia',
+            tokenType: 'nft721',
+            sortDirection: 'ASC',
+            limit: '1000',
+            page: '1'
+        },
+        headers: {
+            accept: 'application/json',
+            'X-API-Key': key
+        }
     };
 
     try {
