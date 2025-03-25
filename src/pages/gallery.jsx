@@ -18,7 +18,7 @@ export async function getServerSideProps(context) {
 
   try {
     // Fetch NFTs dynamically based on query parameters
-    const response = await axios.get("http://localhost:3000/api/fetch_nfts", {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/fetch_nfts`, {
       params: { limit, orderBy }
     });    
     const nfts = response.data;
