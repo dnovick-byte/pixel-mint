@@ -49,13 +49,6 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'No data returned from minting API' });
     }
 
-    // Step 3: Store NFT info in database
-    await axios.post(`${BASE_URL}/api/db_add`, {
-      name: name,
-      description: description,
-      image: filePath    
-    });
-
     // Return successful response
     return res.status(200).json({
       success: true,

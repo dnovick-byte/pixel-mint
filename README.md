@@ -190,8 +190,7 @@ PixelMint is developed and maintained by:
     - error handling for erroneous mint attempts
     - error warnings for entering blank name and descriptions
     - fix minting with no grid lines, for some reasons the picture still captures some
+    - more and better error handling for when api fails
 
 - How it works page
     - explain basics about blockchain, crypto, NFTs, our application, etc.
-
-- Deploy on Vercel

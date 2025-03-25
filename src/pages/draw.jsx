@@ -23,16 +23,46 @@ export default function DrawPage() {
   const [recipient, setRecipient] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const [ipfsUrl, setIpfsUrl] = useState('');
+  const [error, setError] = useState(null);
+  const [minted, setMinted] = useState(false);
 
-  
+
   const mint = async () => {
-    await axios.post("/api/mint", { // do a loading screen before saying it is minted
-      filePath: ipfsUrl, // pass the path
-      name: name,
-      description: description,
-      recipientAddress: recipient
-    });
-  }
+    setIsLoading(true); // Start loading
+
+    try {
+        // Step 1: Call the mint API
+        const mintResponse = await axios.post("/api/mint", {
+            filePath: ipfsUrl, // pass the path
+            name: name,
+            description: description,
+            recipientAddress: recipient,
+        });
+
+        if (mintResponse.status === 200) {
+            // Step 2: If minting is successful, call the DB add API
+            const dbAddResponse = await axios.post("/api/db_add", {
+                name: name,
+                description: description,
+                image: ipfsUrl,
+            });
+
+            if (dbAddResponse.status === 201) {
+                setMinted(true); // Successfully minted and stored in DB
+            } else {
+                setError('Failed to store NFT in the database');
+            }
+        } else {
+            setError('Failed to mint NFT');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        setError('An error occurred while processing your request');
+    } finally {
+        setIsLoading(false); // Stop loading after process
+    }
+  };
+
 
 
   return (
@@ -117,10 +147,8 @@ export default function DrawPage() {
                 className={styles.mintButton} 
                 disabled={isLoading}
                 onClick={async () => {
-                  setIsLoading(true); // Start loading
                   setStep("success"); 
                   await mint();
-                  setIsLoading(false); // Start loading
                 }}
               >
                 Create My Digital Collectible
@@ -349,43 +377,40 @@ export default function DrawPage() {
               <Sparkles className={styles.sparklesIcon} />
             </div>
 
-            { isLoading ? (
+            {isLoading ? (
               <div className={styles.load}>
                 <p className={styles.successDescription}>Minting your NFT...</p>
                 <div className={styles.spinner}></div>
               </div>
-              ) : (
-                <>
-                  <h1 className={styles.successTitle}>Congratulations!</h1>
-                  <p className={styles.successDescription}>Your artwork is now a unique digital collectible</p>
+            ) : minted ? (
+              <>
+                <h1 className={styles.successTitle}>Congratulations!</h1>
+                <p className={styles.successDescription}>Your artwork is now a unique digital collectible</p>
 
-                  <div className={styles.successArtwork}>
-                    <img
-                      src={ipfsUrl}
-                      alt="Your minted artwork"
-                      className={styles.successImage}
-                    />
-                    <div className={styles.artworkDetails}>
-                      <h3 className={styles.artworkTitle}>{name}</h3>
-                      <p className={styles.artworkInfo}>Created by You • Just now</p>
-                    </div>
+                <div className={styles.successArtwork}>
+                  <img
+                    src={ipfsUrl}
+                    alt="Your minted artwork"
+                    className={styles.successImage}
+                  />
+                  <div className={styles.artworkDetails}>
+                    <h3 className={styles.artworkTitle}>{name}</h3>
+                    <p className={styles.artworkInfo}>Created by You • Just now</p>
                   </div>
+                </div>
 
-                  <p className={styles.collectionInfo}>Your digital collectible is now part of your collection</p>
+                <p className={styles.collectionInfo}>Your digital collectible is now part of your collection</p>
 
-                  <div className={styles.successActions}>
-                    <button className={styles.viewCollectionButton}>View in My Collection</button>
-                    <button className={styles.shareButton}>
-                      <Share2 className={styles.buttonIcon} />
-                      Share
-                    </button>
-                    <button className={styles.createAnotherButton} disabled={isLoading}>Create Another</button>
-                  </div>
-                </>
-              )
-
-            }  
-              
+                <div className={styles.successActions}>
+                  <button className={styles.viewCollectionButton}>View in My Collection</button>
+                  <button className={styles.shareButton}>
+                    <Share2 className={styles.buttonIcon} />
+                    Share
+                  </button>
+                  <button className={styles.createAnotherButton} disabled={isLoading}>Create Another</button>
+                </div>
+              </>
+            ) : null}
           </div>
         )}
       </main>
