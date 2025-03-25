@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Sparkles, ChevronRight, ArrowLeft, PenTool, Eraser, Download, Share2, Sun, Moon, LayoutGrid, RefreshCw, Pen, Square } from "lucide-react"
 import styles from "./draw.module.css"
@@ -22,8 +22,12 @@ export default function DrawPage() {
   const [apiImg, setApiImg] = useState(null)
   const[name, setName] = useState(null)
   const [description, setDescription] = useState(null)
+  const [recipient, setRecipient] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
 
-
+  useEffect(() => {
+    console.log('is loading changed')
+  }, [isLoading]);
   
   const mint = async () => {
     console.log( name, description);
@@ -32,6 +36,7 @@ export default function DrawPage() {
       filePathRelative: apiImg, // pass the path
       name: name,
       description: description,
+      recipientAddress: recipient
     });
   }
 
@@ -63,6 +68,7 @@ export default function DrawPage() {
             <button 
               className={styles.nextButton} 
               onClick={async () => {
+                setIsLoading(true);
                 setStep("preview");
                 const img = document.getElementById("grid"); // Ensure this ID exists
                 if (!img) {
@@ -91,12 +97,10 @@ export default function DrawPage() {
                         });
         
                         if (response.data.success) {
-                            console.log("File uploaded:", response.data.filePath);
-                            console.log("Response Data:", response.data);
-                            console.log("Trying to load image from:", response.data.fullPath);
                             const fullUrl = new URL(response.data.filePath, window.location.origin).href;
                             setImgUrl(fullUrl);
                             setApiImg(response.data.filePath);
+                            setIsLoading(false);
                         }
                     } catch (error) {
                         console.error("Error uploading image:", error.response?.data || error.message);
@@ -110,16 +114,17 @@ export default function DrawPage() {
           )}
 
           {step === "preview" && (
-            <div className={styles.navigationButtons}>
-              <button className={styles.backButton} onClick={() => setStep("draw")}>
-                <ArrowLeft className={styles.buttonIcon} />
-                Back to Drawing
-              </button>
-              <button className={styles.nextButton} onClick={() => setStep("mint")}>
-                Next: Make It Yours
-                <ChevronRight className={styles.buttonIcon} />
-              </button>
-            </div>
+
+              <div className={styles.navigationButtons}>
+                <button className={styles.backButton} onClick={() => setStep("draw")}>
+                  <ArrowLeft className={styles.buttonIcon} />
+                  Back to Drawing
+                </button>
+                <button className={styles.nextButton} disabled={isLoading} onClick={() => setStep("mint")}>
+                  Next: Make It Yours
+                  <ChevronRight className={styles.buttonIcon} />
+                </button>
+              </div>
           )}
 
           {step === "mint" && (
@@ -130,9 +135,12 @@ export default function DrawPage() {
               </button>
               <button 
                 className={styles.mintButton} 
+                disabled={isLoading}
                 onClick={async () => {
+                  setIsLoading(true); // Start loading
                   setStep("success"); 
                   await mint();
+                  setIsLoading(false); // Start loading
                   await axios.post("/api/clear-uploads"); // Clear uploads after minting
 
                 }}
@@ -264,30 +272,40 @@ export default function DrawPage() {
         )}
 
         {step === "preview" && (
-          <div className={styles.previewSection}>
-            <h1 className={styles.previewTitle}>Preview Your Artwork</h1>
-            <p className={styles.previewDescription}>Here's how your creation looks. Happy with it?</p>
+              <div className={styles.previewSection}>
+                <h1 className={styles.previewTitle}>Preview Your Artwork</h1>
+                <p className={styles.previewDescription}>Here's how your creation looks. Happy with it?</p>
 
-            <div className={styles.artworkPreview}>
-              <img
-                src={imgUrl}
-                alt="Your artwork preview"
-                className={styles.previewImage}
-              />
-            </div>
+                {isLoading ? (
+                    <div className={styles.artworkPreview}>
+                      <div className={styles.spinner}></div>
+                    </div>
+                ) : (
+                  <>
+                    <div className={styles.artworkPreview}>
+                      <img
+                        src={imgUrl}
+                        alt="Your artwork preview"
+                        className={styles.previewImage}
+                      />
+                    </div>
 
-            <div className={styles.previewActions}>
-              <button className={styles.downloadButton}>
-                <Download className={styles.buttonIcon} />
-                Download
-              </button>
-              <button className={styles.shareButton}>
-                <Share2 className={styles.buttonIcon} />
-                Share
-              </button>
-            </div>
-          </div>
-        )}
+                    <div className={styles.previewActions}>
+                      <button className={styles.downloadButton}>
+                        <Download className={styles.buttonIcon} />
+                        Download
+                      </button>
+                      <button className={styles.shareButton}>
+                        <Share2 className={styles.buttonIcon} />
+                        Share
+                      </button>
+                    </div>
+                  </>
+                )
+                }
+              </div>
+            )
+          }
 
         {step === "mint" && (
           <div className={styles.mintSection}>
@@ -322,6 +340,16 @@ export default function DrawPage() {
                     className={styles.formTextarea} 
                   />
                 </div>
+                <div className={styles.formField}>
+                  <label className={styles.formLabel}>Recipient Wallet Address</label>
+                  <input 
+                    type="text" 
+                    placeholder="Enter recipient wallet address" 
+                    onChange={(e) => setRecipient(e.target.value)}
+                    className={styles.formInput} 
+                  />
+                </div>
+
 
                 <div className={styles.mintInfo}>
                   <h3 className={styles.infoTitle}>What happens next?</h3>
@@ -343,31 +371,43 @@ export default function DrawPage() {
               <Sparkles className={styles.sparklesIcon} />
             </div>
 
-            <h1 className={styles.successTitle}>Congratulations!</h1>
-            <p className={styles.successDescription}>Your artwork is now a unique digital collectible</p>
-
-            <div className={styles.successArtwork}>
-              <img
-                src={imgUrl}
-                alt="Your minted artwork"
-                className={styles.successImage}
-              />
-              <div className={styles.artworkDetails}>
-                <h3 className={styles.artworkTitle}>{name}</h3>
-                <p className={styles.artworkInfo}>Created by You • Just now</p>
+            { isLoading ? (
+              <div className={styles.load}>
+                <p className={styles.successDescription}>Minting your NFT...</p>
+                <div className={styles.spinner}></div>
               </div>
-            </div>
+              ) : (
+                <>
+                  <h1 className={styles.successTitle}>Congratulations!</h1>
+                  <p className={styles.successDescription}>Your artwork is now a unique digital collectible</p>
 
-            <p className={styles.collectionInfo}>Your digital collectible is now part of your collection</p>
+                  <div className={styles.successArtwork}>
+                    <img
+                      src={imgUrl}
+                      alt="Your minted artwork"
+                      className={styles.successImage}
+                    />
+                    <div className={styles.artworkDetails}>
+                      <h3 className={styles.artworkTitle}>{name}</h3>
+                      <p className={styles.artworkInfo}>Created by You • Just now</p>
+                    </div>
+                  </div>
 
-            <div className={styles.successActions}>
-              <button className={styles.viewCollectionButton}>View in My Collection</button>
-              <button className={styles.shareButton}>
-                <Share2 className={styles.buttonIcon} />
-                Share
-              </button>
-              <button className={styles.createAnotherButton}>Create Another</button>
-            </div>
+                  <p className={styles.collectionInfo}>Your digital collectible is now part of your collection</p>
+
+                  <div className={styles.successActions}>
+                    <button className={styles.viewCollectionButton}>View in My Collection</button>
+                    <button className={styles.shareButton}>
+                      <Share2 className={styles.buttonIcon} />
+                      Share
+                    </button>
+                    <button className={styles.createAnotherButton}>Create Another</button>
+                  </div>
+                </>
+              )
+
+            }  
+              
           </div>
         )}
       </main>

@@ -10,12 +10,12 @@ export default async function handler(req, res) {
   }
 
   const api_key = process.env.API_KEY;
-  const wallet = process.env.WALLET_ADDRESS;
+  //const wallet = process.env.WALLET_ADDRESS;
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
   const this_chain = 'sepolia';
 
   // Get the data from the request body
-  const { filePathRelative, name, description } = req.body;
+  const { filePathRelative, name, description, recipientAddress } = req.body;
 
   // Check if path is provided in the request
   if (!filePathRelative) {
@@ -60,7 +60,7 @@ export default async function handler(req, res) {
     formData.append("imageUrl", imgUrl);
     formData.append("name", name);  // Append name
     formData.append("description", description);  // Append description
-    formData.append("recipientAddress", wallet);  // Append wallet address
+    formData.append("recipientAddress", recipientAddress);  // Append wallet address
     formData.append("data", `[{"trait_type":"Created_On","value":"PixelMint"}]`); // attributes
     formData.append("chain", this_chain);  // Chain info
 

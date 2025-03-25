@@ -7,8 +7,8 @@ export default async function handler(req, res) {
         const { limit, orderBy } = req.query
 
         try {
-            // Set the number of NFTs to fetch (default to 5 if no limit is provided)
-            const nftsLimit = limit ? parseInt(limit) : 5
+            // Set the number of NFTs to fetch (default to 8 if no limit is provided)
+            const nftsLimit = limit ? parseInt(limit) : 8
             // Set the field to order by (default to 'createdAt' if no orderBy is provided)
             const orderByField = orderBy || 'id'
 
