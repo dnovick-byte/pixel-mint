@@ -9,7 +9,6 @@ import html2canvas from "html2canvas";
 import axios from "axios";
 
 
-
 export default function DrawPage() {
   const [activeColor, setActiveColor] = useState("#000000")
   const [bgColor, setBgColor] = useState("#FFFFFF")
