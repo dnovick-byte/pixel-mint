@@ -41,6 +41,14 @@ PixelMint is built using the following technologies and tools:
 ### Step 4: Own and Share Your NFT
 - You’ll be the proud owner of a unique digital collectible on the blockchain!
 
+## Demo
+The app is live! You can try it out here: [Demo Link](https://pixel-mint.vercel.app/)
+
+Note:
+Some features are still in progress.
+
+Feel free to provide feedback or report issues.
+
 ## Running the App Locally
 
 To run PixelMint on your own local machine, follow these steps:
