@@ -1,5 +1,3 @@
-import fs from 'fs';
-import path from 'path';
 import axios from 'axios';
 import FormData from 'form-data';
 
@@ -15,10 +13,10 @@ export default async function handler(req, res) {
   const this_chain = 'sepolia';
 
   // Get the data from the request body
-  const { filePathRelative, name, description, recipientAddress } = req.body;
+  const { filePath, name, description, recipientAddress } = req.body;
 
   // Check if path is provided in the request
-  if (!filePathRelative) {
+  if (!filePath) {
     return res.status(400).json({ error: 'File path is required' });
   }
   if (!name) {
@@ -28,36 +26,10 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Description is required' });
   }
 
-  // Construct the full file path from the relative path
-  const filePath = path.join(process.cwd(), 'public', filePathRelative.replace(/^\/+/, ''));
-
-  // Check if the file exists before attempting to read it
-  if (!fs.existsSync(filePath)) {
-    return res.status(400).json({ error: "File not found" });
-  }
-
-
   try {
-    // Create a read stream for the file
-    const fileStream = fs.createReadStream(filePath);
-
     let formData = new FormData(); // Create a FormData instance
-    formData.append("filePath", fileStream, name);  // Append the file to FormData
 
-    // Step 1: Store the NFT
-    const storeResponse = await axios.post('https://api.verbwire.com/v1/nft/store/file', formData, {
-      headers: {
-        'X-API-Key': api_key,
-        ...formData.getHeaders()  // Add the correct content-type headers for multipart/form-data  
-      }
-    });
-    if (!storeResponse || !storeResponse.data) {
-      return res.status(500).json({ error: 'No data returned from storing API' });
-    }
-
-    const imgUrl = storeResponse.data.ipfs_storage.ipfs_url;
-    formData = new FormData();
-    formData.append("imageUrl", imgUrl);
+    formData.append("imageUrl", filePath);
     formData.append("name", name);  // Append name
     formData.append("description", description);  // Append description
     formData.append("recipientAddress", recipientAddress);  // Append wallet address
@@ -79,7 +51,7 @@ export default async function handler(req, res) {
     await axios.post(`${BASE_URL}/api/db_add`, {
       name: name,
       description: description,
-      image: imgUrl    
+      image: filePath    
     });
 
     // Return successful response

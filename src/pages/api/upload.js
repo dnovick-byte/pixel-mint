@@ -1,4 +1,39 @@
-import formidable from 'formidable'; // Library for parsing form data, especially files
+
+export default async function handler(req, res) {
+    if (req.method !== 'POST') {
+        return res.status(405).json({ error: 'Method not allowed' });
+    }
+
+    try {
+        const { file } = req.body; // Base64 file from client
+
+        if (!file) {
+            return res.status(400).json({ error: 'No file provided' });
+        }
+        // Convert base64 to a Blob-like buffer
+        const buffer = Buffer.from(file.split(',')[1], 'base64');
+
+        const formData = new FormData();
+        formData.append('filePath', new Blob([buffer]), 'canvas-file.png');
+
+        const response = await fetch('https://api.verbwire.com/v1/nft/store/file', {
+            method: 'POST',
+            headers: {
+                'X-API-Key': process.env.API_KEY, // Store your API key in .env
+            },
+            body: formData
+        });
+
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || 'Failed to upload');
+
+        res.status(200).json({ ipfsUrl: data.ipfs_storage.ipfs_url });
+
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+/*import formidable from 'formidable'; // Library for parsing form data, especially files
 import fs from 'fs'; // Node.js file system module for file operations
 import path from 'path'; // Node.js path module for handling file paths
 
@@ -9,7 +44,7 @@ export const config = {
     bodyParser: false,
   },
 };
-// API route to upload image to uploads folder
+// API route to upload file to uploads folder
 export default function handler(req, res) {
     // Only allow POST requests
     if (req.method === 'POST') {
@@ -39,13 +74,13 @@ export default function handler(req, res) {
             // Handle any errors during upload
             if (err) {
                 console.error('Upload error:', err);
-                return res.status(500).json({ error: 'Failed to process image' });
+                return res.status(500).json({ error: 'Failed to process file' });
             }
 
             // Check if we actually received a file
             // In your form, the file input must have name="file"
             if (!files.file || !files.file[0]) {
-                return res.status(400).json({ error: 'No image data received' });
+                return res.status(400).json({ error: 'No file data received' });
             }
 
             // Get the uploaded file details
@@ -68,4 +103,4 @@ export default function handler(req, res) {
         // Reject any non-POST requests
         res.status(405).json({ error: 'Method Not Allowed' });
     }
-}
+}*/

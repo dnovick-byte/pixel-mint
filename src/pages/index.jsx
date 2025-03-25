@@ -13,7 +13,7 @@ export async function getStaticProps() {
   try {
     // Make the API call to your backend (assumed to be 'api/fetch_nfts')
     const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-    console.log(`${BASE_URL}/api/fetch_nfts`)
+    //console.log(`${BASE_URL}/api/fetch_nfts`)
     const response = await axios.get(`${BASE_URL}/api/fetch_nfts`); // Adjust the URL if necessary
     const nfts = response.data; // Assume it returns the list of NFTs
     console.log(nfts);

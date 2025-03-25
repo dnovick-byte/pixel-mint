@@ -172,6 +172,8 @@ PixelMint is developed and maintained by:
 
 - Home page
     - more interactivity, animations as you scroll
+    - More interesting hero
+        - pixel colors background, interactive drawing rainbow colors?
 
 - Gallery page
     - click on bottom right for more information

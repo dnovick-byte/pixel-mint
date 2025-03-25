@@ -18,22 +18,19 @@ export default function DrawPage() {
   const [gridSize, setGridSize] = useState(24)
   const [reset, setReset] = useState(null)
   const [gridLines, setGridLines] = useState(true)
-  const [imgUrl, setImgUrl] = useState(null)
-  const [apiImg, setApiImg] = useState(null)
   const[name, setName] = useState(null)
   const [description, setDescription] = useState(null)
   const [recipient, setRecipient] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
+  const [ipfsUrl, setIpfsUrl] = useState('');
 
   useEffect(() => {
     console.log('is loading changed')
   }, [isLoading]);
   
   const mint = async () => {
-    console.log( name, description);
-    console.log(apiImg);
     await axios.post("/api/mint", { // do a loading screen before saying it is minted
-      filePathRelative: apiImg, // pass the path
+      filePath: ipfsUrl, // pass the path
       name: name,
       description: description,
       recipientAddress: recipient
@@ -70,42 +67,28 @@ export default function DrawPage() {
               onClick={async () => {
                 setIsLoading(true);
                 setStep("preview");
-                const img = document.getElementById("grid"); // Ensure this ID exists
-                if (!img) {
-                    console.error("Grid element not found!");
-                    return;
-                }
-                
-                // Capture the image
-                const canvas = await html2canvas(img);
-        
-                canvas.toBlob(async (blob) => {
-                    if (!blob) {
-                        console.error("Failed to convert canvas to blob");
-                        return;
+                const captureAndUpload = async () => {
+                    const element = document.getElementById('grid'); // Element to capture
+                    const canvas = await html2canvas(element);
+                    const file = canvas.toDataURL('image/png'); // Convert canvas to base64
+            
+                    // Send to Next.js API for uploading
+                    const response = await fetch('/api/upload', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ file })
+                    });
+            
+                    const data = await response.json();
+                    if (data.ipfsUrl) {
+                        console.log(data.ipfsUrl)
+                        setIpfsUrl(data.ipfsUrl); // Store and display IPFS URL
+                        setIsLoading(false);
+                    } else {
+                        console.error('Upload failed:', data.error);
                     }
-                    // Create FormData and append the image
-                    const formData = new FormData();
-                    formData.append("file", blob, "img.png"); // Name the file
-        
-        
-                    try {
-                        const response = await axios.post("/api/upload", formData, {
-                            headers: {
-                                "Content-Type": "multipart/form-data",
-                            },
-                        });
-        
-                        if (response.data.success) {
-                            const fullUrl = new URL(response.data.filePath, window.location.origin).href;
-                            setImgUrl(fullUrl);
-                            setApiImg(response.data.filePath);
-                            setIsLoading(false);
-                        }
-                    } catch (error) {
-                        console.error("Error uploading image:", error.response?.data || error.message);
-                    }
-                }, "image/png");
+                };
+                captureAndUpload();
               }
             }>
               Next: Preview
@@ -141,8 +124,6 @@ export default function DrawPage() {
                   setStep("success"); 
                   await mint();
                   setIsLoading(false); // Start loading
-                  await axios.post("/api/clear-uploads"); // Clear uploads after minting
-
                 }}
               >
                 Create My Digital Collectible
@@ -284,7 +265,7 @@ export default function DrawPage() {
                   <>
                     <div className={styles.artworkPreview}>
                       <img
-                        src={imgUrl}
+                        src={ipfsUrl}
                         alt="Your artwork preview"
                         className={styles.previewImage}
                       />
@@ -315,7 +296,7 @@ export default function DrawPage() {
             <div className={styles.mintContent}>
               <div className={styles.artworkPreview}>
                 <img
-                  src={imgUrl}
+                  src={ipfsUrl}
                   alt="Your artwork"
                   className={styles.previewImage}
                 />
@@ -383,7 +364,7 @@ export default function DrawPage() {
 
                   <div className={styles.successArtwork}>
                     <img
-                      src={imgUrl}
+                      src={ipfsUrl}
                       alt="Your minted artwork"
                       className={styles.successImage}
                     />
