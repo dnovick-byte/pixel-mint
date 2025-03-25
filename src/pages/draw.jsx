@@ -24,9 +24,6 @@ export default function DrawPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [ipfsUrl, setIpfsUrl] = useState('');
 
-  useEffect(() => {
-    console.log('is loading changed')
-  }, [isLoading]);
   
   const mint = async () => {
     await axios.post("/api/mint", { // do a loading screen before saying it is minted
@@ -382,7 +379,7 @@ export default function DrawPage() {
                       <Share2 className={styles.buttonIcon} />
                       Share
                     </button>
-                    <button className={styles.createAnotherButton}>Create Another</button>
+                    <button className={styles.createAnotherButton} disabled={isLoading}>Create Another</button>
                   </div>
                 </>
               )

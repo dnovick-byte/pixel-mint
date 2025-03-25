@@ -3,19 +3,18 @@ import FormData from 'form-data';
 
 
 export default async function handler(req, res) {
-  if (req.method !== "POST") {
+  if (req.method !== "POST") { // ensure request is a POST request
     return res.status(405).json({ error: "Method Not Allowed" });
   }
 
-  const api_key = process.env.API_KEY;
-  //const wallet = process.env.WALLET_ADDRESS;
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-  const this_chain = 'sepolia';
+  const api_key = process.env.API_KEY; // verbwire API key
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'; // base url to use for db_add api
+  const this_chain = 'sepolia'; // chain to mint to
 
   // Get the data from the request body
   const { filePath, name, description, recipientAddress } = req.body;
 
-  // Check if path is provided in the request
+  // Check if information is provided in the request
   if (!filePath) {
     return res.status(400).json({ error: 'File path is required' });
   }
@@ -24,6 +23,9 @@ export default async function handler(req, res) {
   }
   if (!description) {
     return res.status(400).json({ error: 'Description is required' });
+  }
+  if (!recipientAddress) {
+    return res.status(400).json({ error: 'Recipient Address is required' });
   }
 
   try {

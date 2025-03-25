@@ -6,28 +6,24 @@ export default async function handler(req, res) {
     if (req.method === 'POST') {
         const { name, description, image } = req.body;
 
-        console.log(req.body);
+        console.log("Received request:", req.body);
 
-        // Ensure the required fields are provided
         if (!name || !description || !image) {
+            console.error("Missing required fields");
             return res.status(400).json({ message: 'Name, description, and image are required' });
         }
 
         try {
-            // Create a new NFT
+            console.log("Connecting to DB...");
             const nft = await prisma.nFT.create({
-                data: {
-                    name,
-                    description,
-                    image,
-                },
+                data: { name, description, image },
             });
+            console.log("NFT Created:", nft);
             return res.status(201).json(nft);
         } catch (error) {
-            console.error('Error creating NFT:', error); // Log the error to the console
+            console.error("Error creating NFT:", error); 
             return res.status(500).json({ message: 'Internal Server Error', error: error.message });
         }
     }
-    // Handle any other HTTP methods (if needed)
     return res.status(405).json({ message: 'Method Not Allowed' });
 }
