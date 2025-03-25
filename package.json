@@ -22,7 +22,8 @@
     "openai": "^4.86.2",
     "prisma": "^6.5.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "html2canvas": "^1.4.1"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.21",
