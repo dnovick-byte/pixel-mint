@@ -32,12 +32,28 @@ export default function DrawPage() {
 
     try {
         // Step 1: Call the mint API
-        const mintResponse = await axios.post("/api/mint", {
+        /*const mintResponse = await axios.post("/api/mint", {
             filePath: ipfsUrl, // pass the path
             name: name,
             description: description,
             recipientAddress: recipient,
-        });
+        });*/
+        const mintResponse = await axios.post('https://api.verbwire.com/v1/nft/mint/quickMintFromMetadata', 
+          {
+            imageUrl: ipfsUrl,
+            name: name,
+            description: description,
+            recipientAddress: recipient,
+            data: `[{"trait_type":"Created_On","value":"PixelMint"}]`,
+            chain: 'sepolia'
+          },
+          {
+            headers: {
+              'X-API-Key': process.env.NEXT_PUBLIC_API_KEY,  // Your API key
+              'Content-Type': 'application/json'  // Correct content-type for JSON data
+            }
+          }
+        );
 
         if (mintResponse.status === 200) {
             // Step 2: If minting is successful, call the DB add API

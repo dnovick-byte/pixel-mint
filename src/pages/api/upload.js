@@ -19,7 +19,7 @@ export default async function handler(req, res) {
         const response = await fetch('https://api.verbwire.com/v1/nft/store/file', {
             method: 'POST',
             headers: {
-                'X-API-Key': process.env.API_KEY, // Store your API key in .env
+                'X-API-Key': process.env.NEXT_PUBLIC_API_KEY, // Store your API key in .env
             },
             body: formData
         });
