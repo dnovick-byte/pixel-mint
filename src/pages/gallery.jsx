@@ -5,7 +5,7 @@ import { Header } from "../components/Header/Header"
 import { Footer }from "../components/Footer/Footer"
 import { GalleryHeader } from "../components/Gallery/GalleryHeader"
 import { GalleryTabs, TabPanel } from "../components/Gallery/GalleryTabs"
-import { ArtworkGrid } from "../components/gallery/ArtworkGrid"
+import { ArtworkGrid } from "../components/Gallery/ArtworkGrid"
 import styles from "./gallery.module.css"
 import axios from "axios"
 
