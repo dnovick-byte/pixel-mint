@@ -417,7 +417,9 @@ export default function DrawPage() {
                 <p className={styles.collectionInfo}>Your digital collectible is now part of your collection</p>
 
                 <div className={styles.successActions}>
-                  <button className={styles.viewCollectionButton}>View in My Collection</button>
+                  <Link href="/gallery" className={styles.viewCollectionButton}>
+                    View in Gallery
+                  </Link>
                   <button className={styles.shareButton}>
                     <Share2 className={styles.buttonIcon} />
                     Share
