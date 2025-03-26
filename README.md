@@ -42,12 +42,11 @@ PixelMint is built using the following technologies and tools:
 - You’ll be the proud owner of a unique digital collectible on the blockchain!
 
 ## Demo
-The app is live! You can try it out here: [Demo Link](https://pixel-mint.vercel.app/)
+The app is live! You can [try it out here!](https://pixel-mint.vercel.app/)
 
 Note:
-Some features are still in progress.
-
-Feel free to provide feedback or report issues.
+- Some features are still in progress.
+- Feel free to provide feedback or report issues.
 
 ## Running the App Locally
 
