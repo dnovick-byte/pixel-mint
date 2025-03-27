@@ -184,6 +184,8 @@ PixelMint is developed and maintained by:
         - Might want to switch back to normal sizing for each section
     - More interesting hero
         - pixel colors background, interactive drawing rainbow colors?
+    - gallery preview
+        - top row of images sliding to left with more coming from off screen, bottom row sliding to right
 
 - Gallery page
     - click on bottom right for more information
