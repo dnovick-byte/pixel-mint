@@ -7,6 +7,7 @@ import { Features } from "../components/Home/Features";
 import {GalleryPreview} from "../components/Home/GalleryPreview";
 import axios from "axios";
 
+
 // The function will be executed at build time to fetch data
 export async function getStaticProps() {
   try {

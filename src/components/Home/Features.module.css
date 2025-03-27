@@ -108,8 +108,8 @@
   flex-direction: column;
   gap: 1rem;
   opacity: 0;
-  transform: translateX(-80%);
-  transition: all 1.5s ease-in-out;
+  transform: translateX(-70%);
+  transition: all 0.8s ease-in-out;
 }
 
 .featureText.show {
@@ -123,8 +123,8 @@
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 
               0 2px 4px -1px rgba(0, 0, 0, 0.06);
   opacity: 0;
-  transform: translateX(80%);
-  transition: all 1.5s ease-in-out;
+  transform: translateX(70%);
+  transition: all 0.8s ease-in-out;
 }
   
   .featureImage.show {
