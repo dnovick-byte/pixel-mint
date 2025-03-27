@@ -1,14 +1,14 @@
-import React, { useState } from 'react'; // delete usestate after styling
+import React from 'react'; // delete usestate after styling
 import styles from './index.module.css';
 import { Header } from "../components/Header/Header";
 import { Footer } from "../components/Footer/Footer";
 import { Hero } from "../components/Home/Hero";
 import { Features } from "../components/Home/Features";
 import {GalleryPreview} from "../components/Home/GalleryPreview";
-
+import axios from "axios";
 
 // The function will be executed at build time to fetch data
-/*export async function getStaticProps() {
+export async function getStaticProps() {
   try {
     // Make the API call to your backend (assumed to be 'api/fetch_nfts')
     const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
@@ -28,10 +28,9 @@ import {GalleryPreview} from "../components/Home/GalleryPreview";
       props: { nfts: [] }, // Fallback to empty array if error occurs
     };
   }
-};*/ // uncomment after finishing styling also prop in homepage
+};
 
-export default function HomePage(/*{ nfts }*/) {
-  const [nfts, setNfts] = useState([])
+export default function HomePage({ nfts }) {
   return (
     <div className={styles.container}>
         <Header />

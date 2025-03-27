@@ -179,6 +179,9 @@ PixelMint is developed and maintained by:
 
 - Home page
     - more interactivity, animations as you scroll
+    - need a smooth scroll as you scroll that brings you to next section
+    - Hero
+        - Might want to switch back to normal sizing for each section
     - More interesting hero
         - pixel colors background, interactive drawing rainbow colors?
 
@@ -201,3 +204,6 @@ PixelMint is developed and maintained by:
 
 - How it works page
     - explain basics about blockchain, crypto, NFTs, our application, etc.
+
+- Smart contract integration
+    - maybe allow users to get royalties every time an nft is minted

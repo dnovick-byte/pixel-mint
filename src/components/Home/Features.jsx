@@ -1,12 +1,41 @@
 import Link from "next/link"
 import { Brush } from "lucide-react"
 import styles from "./Features.module.css"
+import { useEffect, useRef } from "react";
+
 
 export const Features = () => {
+  const textRef = useRef(null);
+  const imageRef = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (textRef.current && imageRef.current) {
+        const textRect = textRef.current.getBoundingClientRect();
+        const imageRect = imageRef.current.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+
+        if (textRect.top < windowHeight * 0.8) {
+          textRef.current.classList.add(styles.show);
+        }
+        if (imageRect.top < windowHeight * 0.8) {
+          imageRef.current.classList.add(styles.show);
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    handleScroll(); // Run once to check if already in view
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+
+
   return (
     <section className={styles.features}>
       <div className={styles.featuresContent}>
-        <div className={styles.featureText}>
+        <div ref={textRef} className={styles.featureText}>
           <div className={styles.featureLabel}>Simple as 1-2-3</div>
           <h2 className={styles.featureTitle}>Create Digital Art in Minutes</h2>
           <p className={styles.featureDescription}>
@@ -42,7 +71,7 @@ export const Features = () => {
             Start Creating Now
           </Link>
         </div>
-        <div className={styles.featureImage}>
+        <div ref={imageRef} className={styles.featureImage}>
           <img
             src="features.png"
             alt="Drawing canvas preview"

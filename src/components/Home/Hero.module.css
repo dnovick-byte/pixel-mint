@@ -8,11 +8,6 @@
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  overflow: hidden;
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
 }
 
 .gridOverlay {
@@ -20,13 +15,12 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
   display: grid;
-  grid-template-columns: repeat(40, 1fr);
-  aspect-ratio: 1 / 1; /* This ensures the grid maintains a square shape */
+  grid-template-columns: repeat(20, 1fr);
   margin: auto;
   max-height: 100%;
   max-width: 100%;
+  overflow: hidden;
 }
 
 .gridCell {
