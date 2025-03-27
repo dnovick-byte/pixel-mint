@@ -10,29 +10,24 @@ import styles from "./gallery.module.css"
 import axios from "axios"
 
 
-// Server-side fetching: Fetch NFTs dynamically on each request
-export async function getServerSideProps(context) {
-  const { query } = context;
-  const limit = query.limit || 8; // Default to 8 items if not specified
-  const orderBy = query.orderBy || "id"; // Default sorting
 
-  try {
-    // Fetch NFTs dynamically based on query parameters
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/fetch_nfts`, {
-      params: { limit, orderBy }
-    });    
-    const nfts = response.data;
+export default function GalleryPage({ initialNfts }) {
+  const [nfts, setNfts] = useState(initialNfts); // Initialize NFTs with the fetched data
+  const [limit, setLimit] = useState(8); // Initial limit for fetching
 
-    return { props: { nfts } };
-  } catch (error) {
-    console.error("Error fetching NFTs:", error);
-    return { props: { nfts: [] } }; // Provide empty array if there's an error
-  }
-}
 
-export default function GalleryPage({ nfts }) {
+  const onLoadMore = async () => {
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/fetch_nfts`, {
+        params: { limit: limit + 8, orderBy: "id" } // Increase limit by 8 each time
+      });
+      setNfts(response.data); // Update the nfts state with the new data
+      setLimit(limit + 8); // Increase the limit state by 8
+    } catch (error) {
+      console.error("Error loading more NFTs:", error);
+    }
+  };
   const [searchQuery, setSearchQuery] = useState("")
-  console.log(nfts)
   
   return (
     <div className={styles.container}>
@@ -41,10 +36,28 @@ export default function GalleryPage({ nfts }) {
             <div className={styles.content}>
                 <GalleryHeader onSearch={setSearchQuery} />
 
-                <ArtworkGrid
-                  artworks={nfts}
-                  onLoadMore={() => console.log('loading more')}
-                />
+                <GalleryTabs tabs={["Trending", "Recent", "Featured"]} defaultTab="Recent">
+                  <TabPanel value="Trending">
+                    <ArtworkGrid
+                        artworks={nfts}
+                        onLoadMore={onLoadMore}
+                    />   
+                  </TabPanel>
+                  <TabPanel value="Recent">
+                    <ArtworkGrid
+                      artworks={nfts}
+                      onLoadMore={onLoadMore}
+                    />       
+                  </TabPanel>
+                  <TabPanel value="Featured">
+                    <ArtworkGrid
+                        artworks={nfts}
+                        onLoadMore={onLoadMore}
+                    />   
+                  </TabPanel>
+
+                </GalleryTabs>
+
                
                
             </div>
@@ -56,12 +69,24 @@ export default function GalleryPage({ nfts }) {
   )
 }
 
-/*
- <GalleryTabs tabs={["Trending", "Recent", "Featured"]} defaultTab="Recent">
-                  <TabPanel value="Recent">
-                    
-                  </TabPanel>
 
-                </GalleryTabs>
-*/
 
+// Server-side fetching: Fetch NFTs dynamically on each request
+export async function getServerSideProps(context) {
+  const { query } = context;
+  const limit = query.limit || 8; // Default to 8 items if not specified
+  const orderBy = query.orderBy || "id"; // Default sorting
+
+  try {
+    // Fetch NFTs dynamically based on query parameters
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/fetch_nfts`, {
+      params: { limit, orderBy }
+    });    
+    const initialNfts = response.data;
+
+    return { props: { initialNfts } };
+  } catch (error) {
+    console.error("Error fetching NFTs:", error);
+    return { props: { initialNfts: [] } }; // Provide empty array if there's an error
+  }
+}

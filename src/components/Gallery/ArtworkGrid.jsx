@@ -2,7 +2,7 @@
 import { Sparkles } from "lucide-react"
 import styles from "./ArtworkGrid.module.css"
 
-export const ArtworkGrid = ({ artworks, onLoadMore }) => {
+export const ArtworkGrid = ({ artworks = [], onLoadMore }) => {
   return (
     <div className={styles.container}>
       <div className={styles.grid}>
