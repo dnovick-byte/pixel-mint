@@ -1,3 +1,4 @@
+"use client"
 import Link from "next/link"
 import { Brush } from "lucide-react"
 import styles from "./Features.module.css"
