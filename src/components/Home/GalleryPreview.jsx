@@ -1,3 +1,4 @@
+"use client"
 import Link from "next/link"
 import styles from "./GalleryPreview.module.css"
 import { useState } from "react"

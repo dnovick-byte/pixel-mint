@@ -1,10 +1,10 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import Link from "next/link"
 import { Sparkles, ChevronRight, ArrowLeft, PenTool, Eraser, Download, Share2, Sun, Moon, LayoutGrid, RefreshCw, Pen, Square } from "lucide-react"
 import styles from "./draw.module.css"
-import { Grid } from "../components/Grid/Grid"
+import { Grid } from "../../components/Grid/Grid"
 import html2canvas from "html2canvas";
 import axios from "axios";
 
@@ -31,12 +31,6 @@ export default function DrawPage() {
 
     try {
         // Step 1: Call the mint API
-        /*const mintResponse = await axios.post("/api/mint", {
-            filePath: ipfsUrl, // pass the path
-            name: name,
-            description: description,
-            recipientAddress: recipient,
-        });*/
         const mintResponse = await axios.post('https://api.verbwire.com/v1/nft/mint/quickMintFromMetadata', 
           {
             imageUrl: ipfsUrl,

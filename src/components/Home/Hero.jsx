@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link"
 import { ArrowRight, Brush } from "lucide-react"
 import styles from "./Hero.module.css"
