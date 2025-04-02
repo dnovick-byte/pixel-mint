@@ -1,8 +1,9 @@
 import Link from "next/link"
 import { Sparkles } from "lucide-react"
 import styles from "./Header.module.css"
+//import { ConnectWallet } from "../ConnectWallet/ConnectWallet"
 
-export const Header = () => {
+export const Header = ({ ConnectWallet }) => {
   return (
     <header className={styles.header}>
       <div className={styles.headerContent}>
@@ -20,6 +21,7 @@ export const Header = () => {
             How It Works
           </Link>
           <button className={styles.signInButton}>Sign In</button>
+          <ConnectWallet />
         </nav>
       </div>
     </header>

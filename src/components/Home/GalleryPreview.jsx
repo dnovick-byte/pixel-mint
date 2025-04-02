@@ -1,16 +1,25 @@
 "use client"
 import Link from "next/link"
 import styles from "./GalleryPreview.module.css"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { fetchNftsCached } from "../../lib/fetchNfts";
 
 
 
-export const GalleryPreview = ({ nfts }) => {
-//  const [nfts, setNfts] = useState([]); // State to hold fetched NFTs
+export const GalleryPreview = () => {
   const [loading, setLoading] = useState(true); // State to handle loading state
   const [error, setError] = useState(null); // State for any errors that occur during fetch
+  const [nfts, setNfts] = useState([]); 
 
-  
+  useEffect(() => {
+    async function getNfts() {
+      const data = await fetchNftsCached();
+      console.log("Fetched NFTs Data:", data);
+      setNfts(data); // Ensure it's an array
+    }
+    getNfts();
+  }, []);
+
   return (
     <section className={styles.gallery}>
       <div className={styles.galleryContent}>

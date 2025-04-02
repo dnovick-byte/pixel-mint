@@ -19,4 +19,20 @@ export async function fetchNfts(limit = 8, revalidateTime = 0) {
     console.error("Error fetching NFTs:", error);
     return [];
   }
+};
+
+export async function fetchNftsCached(limit = 8/*, revalidateTime = 0*/) {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/fetch_nfts?limit=${limit}&orderBy=id`,
+      { next: { revalidate: 3600 } } // Cache for 1 hour
+    );
+
+    if (!res.ok) throw new Error("Failed to fetch NFTs");
+
+    return await res.json();
+  } catch (error) {
+    console.error("Error fetching NFTs:", error);
+    return [];
+  }
 }
