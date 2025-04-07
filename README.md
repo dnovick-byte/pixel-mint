@@ -172,6 +172,11 @@ PixelMint is developed and maintained by:
     - To create signed up users, community
         - Users who sign in with their wallet will be registered as users
         - Signed in users can have a username that can be used for an NFT "author"
+    - Error checking, auth, middleware
+        - ensure users cannot access "preview" in drawing section without signing in with wallet
+
+- My collection page
+    - figure out blockchain interaction issues, current inconsistencies
 
 - Mainnet integration
     - Allow for NFTS to be minted on real mainnets
@@ -182,18 +187,12 @@ PixelMint is developed and maintained by:
     - need a smooth scroll as you scroll that brings you to next section
     - Hero
         - Might want to switch back to normal sizing for each section
-    - More interesting hero
-        - pixel colors background, interactive drawing rainbow colors?
     - gallery preview
         - top row of images sliding to left with more coming from off screen, bottom row sliding to right
 
 - Gallery page
     - click on bottom right for more information
     - different filtering options: trending, recent(current default), etc.
-
-- Wallet page
-    - for signed in users, can view all nfts in wallet
-    - can view all nfts owned that were minted on the site
 
 - Database
     - Might want to store more properties for each nft, like an address, tokenID etc.
