@@ -7,7 +7,6 @@ import { ArtworkGrid } from "../../components/Gallery/ArtworkGrid";
 import styles from "./gallery.module.css";
 import {fetchNfts} from "../../lib/fetchNfts"
 import { Header } from "../../components/Header/Header";
-import { ConnectWallet } from "../../components/ConnectWallet/ConnectWallet";
 
 export default function GalleryPage() {
   const [nfts, setNfts] = useState([]);
@@ -24,7 +23,7 @@ export default function GalleryPage() {
 
   return (
     <div className={styles.container}>
-      <Header ConnectWallet={ConnectWallet}/>
+      <Header />
       <main className={styles.main}>
         <div className={styles.content}>
           <GalleryHeader onSearch={setSearchQuery} />

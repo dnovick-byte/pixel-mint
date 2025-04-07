@@ -4,11 +4,11 @@ import { useAccount } from "wagmi"
 
 const WalletContext = createContext()
 
-export function WalletProvider({ children}) {
+export function WalletProvider({ children }) {
     const { address, isConnected } = useAccount()
 
     return (
-        <WalletContext.Provider value={( address, isConnected )}>
+        <WalletContext.Provider value={{ address, isConnected }}>
             {children}
         </WalletContext.Provider>
     )

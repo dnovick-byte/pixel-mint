@@ -14,7 +14,6 @@ export const GalleryPreview = () => {
   useEffect(() => {
     async function getNfts() {
       const data = await fetchNftsCached();
-      console.log("Fetched NFTs Data:", data);
       setNfts(data); // Ensure it's an array
     }
     getNfts();
