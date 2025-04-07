@@ -7,6 +7,7 @@ import styles from "./draw.module.css"
 import { Grid } from "../../components/Grid/Grid"
 import html2canvas from "html2canvas";
 import axios from "axios";
+import { useWallet } from '../../lib/WalletContext'
 
 
 export default function DrawPage() {
@@ -19,11 +20,12 @@ export default function DrawPage() {
   const [gridLines, setGridLines] = useState(true)
   const[name, setName] = useState(null)
   const [description, setDescription] = useState(null)
-  const [recipient, setRecipient] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const [ipfsUrl, setIpfsUrl] = useState('');
   const [error, setError] = useState(null);
   const [minted, setMinted] = useState(false);
+  const { address, isConnected } = useWallet(); // address is null right now i dont know why. must access address from logged in user. also do authentication
+
 
 
   const mint = async () => {
@@ -31,12 +33,13 @@ export default function DrawPage() {
 
     try {
         // Step 1: Call the mint API
+        console.log(address);
         const mintResponse = await axios.post('https://api.verbwire.com/v1/nft/mint/quickMintFromMetadata', 
           {
             imageUrl: ipfsUrl,
             name: name,
             description: description,
-            recipientAddress: recipient,
+            recipientAddress: address,
             data: `[{"trait_type":"Created_On","value":"PixelMint"}]`,
             chain: 'sepolia'
           },
@@ -355,15 +358,7 @@ export default function DrawPage() {
                     className={styles.formTextarea} 
                   />
                 </div>
-                <div className={styles.formField}>
-                  <label className={styles.formLabel}>Recipient Wallet Address</label>
-                  <input 
-                    type="text" 
-                    placeholder="Enter recipient wallet address" 
-                    onChange={(e) => setRecipient(e.target.value)}
-                    className={styles.formInput} 
-                  />
-                </div>
+
 
 
                 <div className={styles.mintInfo}>
