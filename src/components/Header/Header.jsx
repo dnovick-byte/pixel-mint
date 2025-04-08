@@ -20,7 +20,7 @@ export const Header = () => {
           <Link href="/gallery" className={styles.navLink}>
             Gallery
           </Link>
-          <Link href="#" className={styles.navLink}>
+          <Link href="how-it-works" className={styles.navLink}>
             How It Works
           </Link>
           <ConnectWallet />
