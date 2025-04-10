@@ -37,7 +37,6 @@ export const Features = () => {
     <section className={styles.features}>
       <div className={styles.featuresContent}>
         <div ref={textRef} className={styles.featureText}>
-          <div className={styles.featureLabel}>Simple as 1-2-3</div>
           <h2 className={styles.featureTitle}>Create Digital Art in Minutes</h2>
           <p className={styles.featureDescription}>
             No artistic skills? No problem! Our easy-to-use drawing tools make creating fun for everyone.

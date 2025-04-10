@@ -7,7 +7,7 @@ export const Footer = () => {
     <footer className={styles.footer}>
       <div className={styles.footerContent}>
         <div className={styles.logo}>
-          <Sparkles className={styles.logoIcon} />
+          <img src="/favicon.png" alt="logo" className={styles.logoIcon} />
           <span>PixelMint</span>
         </div>
         <p className={styles.copyright}>© 2025 PixelMint. All rights reserved.</p>

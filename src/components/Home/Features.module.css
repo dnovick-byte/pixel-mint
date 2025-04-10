@@ -7,19 +7,19 @@
     justify-content: center;
     align-items: center;
     box-sizing: border-box; 
-  }
+}
   
-  .featuresContent {
+.featuresContent {
     max-width: 1200px;
     margin: 0 auto;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 3rem;
     align-items: center;
-  }
+}
   
   
-  .featureLabel {
+.featureLabel {
     display: inline-block;
     font-size: 0.875rem;
     font-weight: 500;
@@ -28,31 +28,32 @@
     padding: 0.25rem 0.75rem;
     border-radius: 9999px;
     width: 6.2rem;
-  }
+}
   
-  .featureTitle {
+.featureTitle {
     font-size: 2.25rem;
     font-weight: bold;
     line-height: 1.2;
-  }
+}
   
-  .featureDescription {
+.featureDescription {
     color: #6b7280;
-  }
+}
   
-  .featureSteps {
+.featureSteps {
     display: flex;
     flex-direction: column;
     gap: 1rem;
     margin-top: 1rem;
-  }
+}
   
-  .featureStep {
+.featureStep {
     display: flex;
+    align-items: center;
     gap: 1rem;
-  }
+}
   
-  .stepNumber {
+.stepNumber {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -63,23 +64,23 @@
     font-weight: bold;
     border-radius: 9999px;
     flex-shrink: 0;
-  }
+}
   
-  .stepContent {
+.stepContent {
     flex: 1;
-  }
+}
   
-  .stepTitle {
+.stepTitle {
     font-weight: 500;
     margin-bottom: 0.25rem;
-  }
+}
   
-  .stepDescription {
+.stepDescription {
     font-size: 0.875rem;
     color: #6b7280;
-  }
+}
   
-  .primaryButton {
+.primaryButton {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
@@ -93,23 +94,23 @@
     text-decoration: none;
     margin-top: 1rem;
     align-self: flex-start;
-  }
+}
   
-  .primaryButton:hover {
+.primaryButton:hover {
     background-color: #2563eb;
-  }
+}
   
-  .buttonIcon {
+.buttonIcon {
     width: 16px;
     height: 16px;
-  }
+}
 .featureText {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  opacity: 0;
-  transform: translateX(-70%);
-  transition: all 0.8s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    opacity: 0;
+    transform: translateX(-70%);
+    transition: all 0.8s ease-in-out;
 }
 
 .featureText.show {

@@ -25,7 +25,7 @@
   .logoIcon {
     width: 20px;
     height: 20px;
-    color: #3b82f6;
+    border-radius: 10%;
   }
   
   .copyright {

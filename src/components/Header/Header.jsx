@@ -9,14 +9,11 @@ export const Header = () => {
       <div className={styles.headerContent}>
         <div className={styles.logo}>
           <Link href="/" className={styles.logoLink}>
-            <Sparkles className={styles.logoIcon} />
+            <img src="/favicon.png" alt="logo" className={styles.logoIcon} />
             <span>PixelMint</span>
           </Link>
         </div>
         <nav className={styles.nav}>
-          <Link href="/my-collection" className={styles.navLink}>
-            My Collection
-          </Link>
           <Link href="/gallery" className={styles.navLink}>
             Gallery
           </Link>
