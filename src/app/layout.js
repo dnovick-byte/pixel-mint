@@ -1,7 +1,6 @@
 import { Footer } from '../components/Footer/Footer';
-//import { WalletProvider } from "../lib/wagmiConfig"; // wrapped innerbody with WalletProvider
-import { Providers } from './providers'; // We'll create this
-
+import { Providers } from './providers';
+import styles from'./index.module.css';
 
 export const metadata = {
   title: 'PixelMint',
@@ -13,7 +12,7 @@ export default function RootLayout({ children }) {
   return (
     
     <html lang="en">
-        <body>
+        <body className={styles.container}>
           <Providers>
               {children}
               <Footer />

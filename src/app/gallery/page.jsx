@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { GalleryHeader } from "../../components/Gallery/GalleryHeader";
 import { GalleryTabs, TabPanel } from "../../components/Gallery/GalleryTabs";
 import { ArtworkGrid } from "../../components/Gallery/ArtworkGrid";
-import styles from "./gallery.module.css";
+import styles from "./page.module.css";
 import {fetchNfts} from "../../lib/fetchNfts"
 import { Header } from "../../components/Header/Header";
 

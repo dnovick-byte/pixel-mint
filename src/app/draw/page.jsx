@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import { Sparkles, ChevronRight, ArrowLeft, PenTool, Eraser, Download, Share2, Sun, Moon, LayoutGrid, RefreshCw, Pen, Square } from "lucide-react"
-import styles from "./draw.module.css"
+import styles from "./page.module.css"
 import { Grid } from "../../components/Grid/Grid"
 import html2canvas from "html2canvas";
 import axios from "axios";
@@ -83,7 +83,7 @@ export default function DrawPage() {
         <div className={styles.headerContent}>
           <div className={styles.logo}>
             <Link href="/" className={styles.logoLink}>
-              <Sparkles className={styles.logoIcon} />
+              <img src="/favicon.png" alt="logo" className={styles.logoIcon} />
               <span>PixelMint</span>
             </Link>
 
