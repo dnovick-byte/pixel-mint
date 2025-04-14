@@ -18,8 +18,8 @@ export default function DrawPage() {
   const [gridSize, setGridSize] = useState(24)
   const [reset, setReset] = useState(null)
   const [gridLines, setGridLines] = useState(true)
-  const[name, setName] = useState(null)
-  const [description, setDescription] = useState(null)
+  const[name, setName] = useState('')
+  const [description, setDescription] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [ipfsUrl, setIpfsUrl] = useState('');
   const [error, setError] = useState(null);
@@ -33,7 +33,6 @@ export default function DrawPage() {
 
     try {
         // Step 1: Call the mint API
-        console.log(address);
         const mintResponse = await axios.post('https://api.verbwire.com/v1/nft/mint/quickMintFromMetadata', 
           {
             imageUrl: ipfsUrl,
@@ -159,6 +158,10 @@ export default function DrawPage() {
                 className={styles.mintButton} 
                 disabled={isLoading}
                 onClick={async () => {
+                  if (!name.trim() || !description.trim()) {
+                    alert("Please fill in all fields");
+                    return;
+                  }
                   setStep("success"); 
                   await mint();
                 }}
@@ -339,14 +342,26 @@ export default function DrawPage() {
                 />
               </div>
 
-              <div className={styles.mintForm}>
+              <form 
+                className={styles.mintForm}
+                onSubmit={async (e) => {
+                  e.preventDefault();
+                  if (!name.trim() || !description.trim()) {
+                    alert("Please fill in all fields");
+                    return;
+                  }
+                  setStep("success");
+                  await mint();
+                }}
+              >
                 <div className={styles.formField}>
                   <label className={styles.formLabel}>Title Your Artwork</label>
                   <input 
                     type="text" 
                     placeholder="My Amazing Creation" 
                     onChange={(e) => setName(e.target.value)}
-                    className={styles.formInput} 
+                    className={styles.formInput}
+                    required
                   />
                 </div>
 
@@ -356,6 +371,7 @@ export default function DrawPage() {
                     placeholder="Tell the story behind your artwork..." 
                     onChange={(e) => setDescription(e.target.value)}
                     className={styles.formTextarea} 
+                    required
                   />
                 </div>
 
@@ -370,7 +386,7 @@ export default function DrawPage() {
                     <li>You can display it in your collection or share it with others</li>
                   </ul>
                 </div>
-              </div>
+              </form>
             </div>
           </div>
         )}
